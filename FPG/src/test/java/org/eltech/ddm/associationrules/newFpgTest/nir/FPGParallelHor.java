@@ -11,6 +11,9 @@ import org.eltech.ddm.miningcore.algorithms.MiningAlgorithm;
 import org.eltech.ddm.miningcore.miningtask.EMiningBuildTask;
 import org.junit.Test;
 
+/**
+ * Parallel test
+ */
 public class FPGParallelHor extends NirModelTest {
     private final int NUMBER_HANDLERS = 2;
 
