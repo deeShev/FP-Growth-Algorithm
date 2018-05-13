@@ -1,0 +1,20 @@
+def akkaVersion = '2.3.9'
+
+dependencies {
+    compile project(':Core')
+    compile "com.typesafe.akka:akka-actor_2.10:$akkaVersion"
+    compile "com.typesafe.akka:akka-cluster_2.10:$akkaVersion"
+    compile "com.typesafe.akka:akka-contrib_2.10:$akkaVersion"
+
+    testCompile project(':Clustering')
+    runtime project(':Clustering')
+}
+
+jar {
+    manifest {
+        attributes(
+                "Main-Class": "org.eltech.ddm.cluster.actors.ServiceMain",
+                "Class-Path": configurations.runtime.collect { "lib/$it.name" }.join(" ")
+        )
+    }
+}

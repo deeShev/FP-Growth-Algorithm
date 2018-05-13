@@ -1,0 +1,45 @@
+package org.eltech.ddm.classification.ruleset.onerule;
+
+import org.eltech.ddm.classification.ruleset.RuleSetModel;
+import org.eltech.ddm.classification.ruleset.RuleSetModelTest;
+import org.eltech.ddm.miningcore.MiningException;
+import org.eltech.ddm.miningcore.algorithms.MiningAlgorithm;
+import org.eltech.ddm.miningcore.miningfunctionsettings.EMiningAlgorithmSettings;
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.junit.Assert.fail;
+
+public class OneRuleCountAlgorithmTest extends RuleSetModelTest {
+
+	protected MiningAlgorithm algorithm;
+
+	protected EMiningAlgorithmSettings algorithmSettings;	
+	
+	@Before
+	public void setUp() throws Exception {
+		// Create and tuning algorithm settings
+		algorithmSettings = new EMiningAlgorithmSettings();
+		algorithmSettings.setName(OneRuleCountAlgorithm.class.getSimpleName());
+		algorithmSettings.setClassname(OneRuleCountAlgorithm.class.getName());
+		algorithmSettings.setAlgorithm("1R with precouting of vectors");
+	}
+
+	@Test
+	public void test4WeatherNominal() {
+		try {
+			setInputData4WeatherNominal();
+			setMiningSettings4WeatherNominal(algorithmSettings);
+			
+			algorithm = new OneRuleCountAlgorithm(miningSettings);
+			model = (RuleSetModel) algorithm.buildModel(inputData);
+
+	        verifyModel4WeatherNominal();
+	        
+		} catch (MiningException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			fail();
+		}
+	}
+}

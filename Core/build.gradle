@@ -1,0 +1,5 @@
+dependencies {
+    compile project(':CWM')
+    compile files('libs/jdm11.jar')
+    compile files('libs/univocity-parsers-2_5_9.jar')
+}

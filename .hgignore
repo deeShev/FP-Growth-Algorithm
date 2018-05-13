@@ -1,0 +1,25 @@
+syntax: glob
+.gradle/
+.idea/
+*.iml
+build/
+dxelopesGUI/venv/
+out/
+*.class
+dxelopesGUI/projectApp/__pycache__/
+.metadata/
+.recommenders/
+data/
+dxelopesGUI/dxelopesGUI/__pycache__/
+Core/bin/
+Classification/bin/
+Association/bin/
+*.cld
+*.project
+*.classpath
+dxelopesGUI\projectApp\migrations\__pycache__\__init__.cpython-35.pyc
+dxelopesGUI.7z
+dxelopesGUI\db.sqlite3
+ActorCluster/bin/
+*.zip
+*.7z
