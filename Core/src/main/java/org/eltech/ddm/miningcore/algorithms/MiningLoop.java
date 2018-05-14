@@ -1,6 +1,5 @@
 package org.eltech.ddm.miningcore.algorithms;
 
-import org.eltech.ddm.inputdata.MiningInputStream;
 import org.eltech.ddm.miningcore.MiningException;
 import org.eltech.ddm.miningcore.miningfunctionsettings.EMiningFunctionSettings;
 import org.eltech.ddm.miningcore.miningmodel.EMiningModel;
@@ -49,7 +48,7 @@ public abstract class MiningLoop extends MiningBlock implements Cloneable, Seria
 	abstract protected EMiningModel afterIteration(EMiningModel model) throws MiningException;//TODO
 
 	@Override
-	public EMiningModel execute(MiningInputStream data, EMiningModel model) throws MiningException {
+	public EMiningModel execute( EMiningModel model) throws MiningException {
 		boolean cond;
 
 		EMiningModel result = initLoop(model);
@@ -59,7 +58,7 @@ public abstract class MiningLoop extends MiningBlock implements Cloneable, Seria
 		while(cond){
 			result = beforeIteration(result);
 
-			result = iteration.run(data, result);
+			result = iteration.run(result);
 
 			result = afterIteration(result);
 
@@ -68,15 +67,14 @@ public abstract class MiningLoop extends MiningBlock implements Cloneable, Seria
 		return result;
 	}
 
-	public EMiningModel execute(EMiningModel model) throws MiningException {
-		return model;
+
+	public boolean isDataBlock(){
+		return iteration.isDataBlock();
 	}
-
-
-		/**
+	/**
          * @return the iteration
          */
-	MiningSequence getIteration() {
+	public MiningSequence getIteration() {
 		return iteration;
 	}
 
@@ -200,14 +198,14 @@ public abstract class MiningLoop extends MiningBlock implements Cloneable, Seria
 		MiningLoop o = null;
 	    o = (MiningLoop)super.clone();
 
-	    listenersBeforeInitLoop = (ArrayList<BlockExecuteListener>) listenersBeforeInitLoop.clone();
-	    listenersAfterInitLoop = (ArrayList<BlockExecuteListener>) listenersAfterInitLoop.clone();
-	    listenersBeforeCondition = (ArrayList<BlockExecuteListener>) listenersBeforeCondition.clone();
-	    listenersAfterCondition = (ArrayList<BlockExecuteListener>) listenersAfterCondition.clone();
-	    listenersBeforePreIteration = (ArrayList<BlockExecuteListener>) listenersBeforePreIteration.clone();
-	    listenersAfterPreIteration = (ArrayList<BlockExecuteListener>) listenersAfterPreIteration.clone();
-	    listenersBeforePostIteration = (ArrayList<BlockExecuteListener>) listenersBeforePostIteration.clone();
-	    listenersAfterPostIteration = (ArrayList<BlockExecuteListener>) listenersAfterPostIteration.clone();
+//	    listenersBeforeInitLoop = (ArrayList<BlockExecuteListener>) listenersBeforeInitLoop.clone();
+//	    listenersAfterInitLoop = (ArrayList<BlockExecuteListener>) listenersAfterInitLoop.clone();
+//	    listenersBeforeCondition = (ArrayList<BlockExecuteListener>) listenersBeforeCondition.clone();
+//	    listenersAfterCondition = (ArrayList<BlockExecuteListener>) listenersAfterCondition.clone();
+//	    listenersBeforePreIteration = (ArrayList<BlockExecuteListener>) listenersBeforePreIteration.clone();
+//	    listenersAfterPreIteration = (ArrayList<BlockExecuteListener>) listenersAfterPreIteration.clone();
+//	    listenersBeforePostIteration = (ArrayList<BlockExecuteListener>) listenersBeforePostIteration.clone();
+//	    listenersAfterPostIteration = (ArrayList<BlockExecuteListener>) listenersAfterPostIteration.clone();
 
 	    if(iteration != null)
 	    	o.iteration = (MiningSequence)iteration.clone();

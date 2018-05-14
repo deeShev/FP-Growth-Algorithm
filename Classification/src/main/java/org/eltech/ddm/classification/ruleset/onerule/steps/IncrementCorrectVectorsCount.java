@@ -6,6 +6,7 @@ import org.eltech.ddm.classification.ruleset.onerule.OneRuleCountMiningModel;
 import org.eltech.ddm.inputdata.MiningInputStream;
 import org.eltech.ddm.inputdata.MiningVector;
 import org.eltech.ddm.miningcore.MiningException;
+import org.eltech.ddm.miningcore.algorithms.DataMiningBlock;
 import org.eltech.ddm.miningcore.algorithms.MiningBlock;
 import org.eltech.ddm.miningcore.miningdata.ELogicalAttribute;
 import org.eltech.ddm.miningcore.miningfunctionsettings.EMiningFunctionSettings;
@@ -15,7 +16,7 @@ import org.eltech.ddm.miningcore.miningmodel.LogicalAttributeElement;
 /**
  * @author iholod
  */
-public class IncrementCorrectVectorsCount extends MiningBlock {
+public class IncrementCorrectVectorsCount extends DataMiningBlock {
 
     private final ELogicalAttribute target;
     private final int indexTarget;

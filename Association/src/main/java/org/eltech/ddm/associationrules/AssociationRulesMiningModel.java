@@ -21,6 +21,13 @@ public class AssociationRulesMiningModel extends EMiningModel implements IParall
 
 	protected Map<String, Item> itemList = new HashMap<String, Item>();
 
+	// ======= current state of model (build model task) ==================
+//	static public final String NAME_CURRENT_TRANSACTION = "currentTransaction";
+//
+//	static public final String NAME_CURRENT_ITEM_SET = "currentItemSet";
+//
+//	static public final String NAME_CURRENT_ITEM = "currentItem";
+
 	private int currentTransaction = 0;
 
 	private int currentItemSet = 0;
@@ -68,7 +75,6 @@ public class AssociationRulesMiningModel extends EMiningModel implements IParall
 	}
 
 	public void addItem(Item item) {
-		//addElement(ITEM_El, item); set
 		if(! this.itemList.containsKey(item.getItemID()))
 			this.itemList.put(item.getItemID(), item);
 	}

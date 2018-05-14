@@ -4,10 +4,8 @@ package org.eltech.ddm.clustering.cdbase.kmeans;
 
 import org.eltech.ddm.clustering.ClusteringMiningModel;
 import org.eltech.ddm.clustering.cdbase.kmeans.steps.*;
-import org.eltech.ddm.clustering.cdbase.steps.InitClusterByRandom;
 import org.eltech.ddm.clustering.cdbase.steps.InitClusterByVectors;
 import org.eltech.ddm.clustering.cdbase.steps.SetCentroidOfCluster;
-import org.eltech.ddm.inputdata.MiningInputStream;
 import org.eltech.ddm.miningcore.MiningException;
 import org.eltech.ddm.miningcore.ReportType;
 import org.eltech.ddm.miningcore.VerificationReport;
@@ -50,39 +48,115 @@ public class KMeansAlgorithm extends MiningAlgorithm
    *
    */
 
-	public void initBlocks() throws MiningException {
-
-		blocks = new MiningSequence(miningSettings,
-			new MiningLoopElement(miningSettings, ClusteringMiningModel.INDEX_CLUSTERS,
-					new MiningLoopElement(miningSettings, EMiningModel.INDEX_ATTRIBUTE_SET,
-							//new InitClusterByRandom(miningSettings))),
-							new InitClusterByVectors(miningSettings))),
-			new WhileChangClustersLoop(miningSettings,
-					new MiningLoopElement(miningSettings, ClusteringMiningModel.INDEX_CLUSTERS,
-							new InitCluster(miningSettings)),
-					new MiningLoopVectors(miningSettings,
-							new MiningLoopElement(miningSettings, ClusteringMiningModel.INDEX_CLUSTERS,
-									new MiningLoopElement(miningSettings, EMiningModel.INDEX_ATTRIBUTE_SET,
-											new AccumulateDistanceVectorCluster(miningSettings)),
-									new DistanceVectorCluster(miningSettings),
-									new ClosestClusterForVector(miningSettings)),
-							new MiningLoopElement(miningSettings, EMiningModel.INDEX_ATTRIBUTE_SET,
-									new CalcNewClusterCenter(miningSettings)),
-							new IncVectorCountInCluster(miningSettings)),
-					new MiningLoopElement(miningSettings, ClusteringMiningModel.INDEX_CLUSTERS,
-							new MiningLoopElement(miningSettings, EMiningModel.INDEX_ATTRIBUTE_SET,
-									new SetCentroidOfCluster(miningSettings))))
-	  	);
-
-	  blocks.addListenerExecute(new BlockExecuteTimingListner());
-
-    }
-
 	@Override
-	public EMiningModel createModel(MiningInputStream inputStream) throws MiningException {
+	public EMiningModel createModel() throws MiningException {
 		EMiningModel resultModel = new KMeansMiningModel(miningSettings);
 
 		return resultModel;
+	}
+
+	@Override
+	public MiningSequence getSequenceAlgorithm() throws MiningException {
+		MiningSequence blocks = new MiningSequence(miningSettings,
+		  		new MiningLoopElement(miningSettings, ClusteringMiningModel.INDEX_CLUSTERS,
+						new MiningLoopElement(miningSettings, EMiningModel.INDEX_ATTRIBUTE_SET,
+								//new InitClusterByRandom(miningSettings))),
+								new InitClusterByVectors(miningSettings))),
+				new WhileChangClustersLoop(miningSettings,
+						new MiningLoopElement(miningSettings, ClusteringMiningModel.INDEX_CLUSTERS,
+								new InitCluster(miningSettings)),
+						new MiningLoopVectors(miningSettings,
+								new MiningLoopElement(miningSettings, ClusteringMiningModel.INDEX_CLUSTERS,
+										new MiningLoopElement(miningSettings, EMiningModel.INDEX_ATTRIBUTE_SET,
+												new AccumulateDistanceVectorCluster(miningSettings)),
+										new DistanceVectorCluster(miningSettings),
+										new ClosestClusterForVector(miningSettings)),
+								new MiningLoopElement(miningSettings, EMiningModel.INDEX_ATTRIBUTE_SET,
+										new CalcNewClusterCenter(miningSettings)),
+								new IncVectorCountInCluster(miningSettings)),
+						new MiningLoopElement(miningSettings, ClusteringMiningModel.INDEX_CLUSTERS,
+								new MiningLoopElement(miningSettings, EMiningModel.INDEX_ATTRIBUTE_SET,
+										new SetCentroidOfCluster(miningSettings))))
+		);
+
+		blocks.addListenerExecute(new BlockExecuteTimingListner());
+
+
+		return blocks;
+	}
+
+	@Override
+	public MiningSequence getCentralizedParallelAlgorithm() throws MiningException {
+		return getHorDistributedAlgorithm();
+	}
+
+	@Override
+	public MiningSequence getHorDistributedAlgorithm() throws MiningException {
+		MiningSequence blocks = new MiningSequence(miningSettings,
+				new MiningLoopElement(miningSettings, ClusteringMiningModel.INDEX_CLUSTERS,
+						new MiningLoopElement(miningSettings, EMiningModel.INDEX_ATTRIBUTE_SET,
+								//new InitClusterByRandom(miningSettings))),
+								new InitClusterByVectors(miningSettings))),
+				new WhileChangClustersLoop(miningSettings,
+						new MiningLoopElement(miningSettings, ClusteringMiningModel.INDEX_CLUSTERS,
+								new InitCluster(miningSettings)),
+						new MiningParallel(miningSettings, MemoryType.shared,
+								new MiningLoopVectors(miningSettings,
+										new MiningLoopElement(miningSettings, ClusteringMiningModel.INDEX_CLUSTERS,
+												new MiningLoopElement(miningSettings, EMiningModel.INDEX_ATTRIBUTE_SET,
+														new AccumulateDistanceVectorCluster(miningSettings)),
+												new DistanceVectorCluster(miningSettings),
+												new ClosestClusterForVector(miningSettings)),
+										new MiningParallel(miningSettings, MemoryType.shared,
+												new MiningLoopElement(miningSettings, EMiningModel.INDEX_ATTRIBUTE_SET,
+														new CalcNewClusterCenter(miningSettings)),
+												new IncVectorCountInCluster(miningSettings)))),
+						new MiningLoopElement(miningSettings, ClusteringMiningModel.INDEX_CLUSTERS,
+								new MiningLoopElement(miningSettings, EMiningModel.INDEX_ATTRIBUTE_SET,
+										new SetCentroidOfCluster(miningSettings))))
+		);
+
+		blocks.addListenerExecute(new BlockExecuteTimingListner());
+
+
+		return blocks;
+	}
+
+	@Override
+	public MiningSequence getVerDistributedAlgorithm() throws MiningException {
+		MiningSequence blocks = new MiningSequence(miningSettings,
+				new MiningLoopElement(miningSettings, ClusteringMiningModel.INDEX_CLUSTERS,
+						new MiningLoopElement(miningSettings, EMiningModel.INDEX_ATTRIBUTE_SET,
+								//new InitClusterByRandom(miningSettings))),
+								new InitClusterByVectors(miningSettings))),
+				new WhileChangClustersLoop(miningSettings,
+						new MiningLoopElement(miningSettings, ClusteringMiningModel.INDEX_CLUSTERS,
+								new InitCluster(miningSettings)),
+						new MiningParallel(miningSettings, MemoryType.distributed,
+								new MiningLoopElement(miningSettings, EMiningModel.INDEX_ATTRIBUTE_SET,
+										new MiningParallel(miningSettings, MemoryType.shared,
+												new MiningLoopVectors(miningSettings,
+														new MiningLoopElement(miningSettings, ClusteringMiningModel.INDEX_CLUSTERS,
+																new AccumulateDistanceVectorCluster(miningSettings)))))),
+						new MiningLoopVectors(miningSettings,
+								new MiningLoopElement(miningSettings, ClusteringMiningModel.INDEX_CLUSTERS,
+										new DistanceVectorCluster(miningSettings),
+										new ClosestClusterForVector(miningSettings))),
+						new MiningParallel(miningSettings, MemoryType.distributed,
+								new MiningLoopElement(miningSettings, EMiningModel.INDEX_ATTRIBUTE_SET,
+										new MiningLoopVectors(miningSettings,
+												new CalcNewClusterCenter(miningSettings)))),
+						new MiningParallel(miningSettings, MemoryType.shared,
+								new MiningLoopVectors(miningSettings,
+										new IncVectorCountInCluster(miningSettings))),
+						new MiningLoopElement(miningSettings, ClusteringMiningModel.INDEX_CLUSTERS,
+								new MiningLoopElement(miningSettings, EMiningModel.INDEX_ATTRIBUTE_SET,
+										new SetCentroidOfCluster(miningSettings))))
+		);
+
+		blocks.addListenerExecute(new BlockExecuteTimingListner());
+
+		return blocks;
 	}
 
 

@@ -34,6 +34,10 @@ public class Item extends MiningModelElement {
 
     @Override
     public void merge(List<MiningModelElement> elements) throws MiningException {
-
+        int delta = 0;
+        for(MiningModelElement element: elements) {
+            delta = delta + (((Item)element).count);
+        }
+        count = delta;
     }
 }

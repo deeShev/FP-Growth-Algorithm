@@ -1,5 +1,7 @@
 package org.eltech.ddm.miningcore.algorithms;
 
+import org.eltech.ddm.inputdata.MiningInputStream;
+import org.eltech.ddm.miningcore.MiningErrorCode;
 import org.eltech.ddm.miningcore.MiningException;
 import org.eltech.ddm.miningcore.miningfunctionsettings.EMiningFunctionSettings;
 import org.eltech.ddm.miningcore.miningmodel.EMiningModel;
@@ -27,7 +29,7 @@ public class MiningLoopVectors extends MiningLoop {
 	 * @param block - iteration block
 	 * @throws MiningException
 	 */
-	MiningLoopVectors(EMiningFunctionSettings settings, int startPos, int countElement, MiningSequence block) throws MiningException {
+	public MiningLoopVectors(EMiningFunctionSettings settings, int startPos, int countElement, MiningSequence block) throws MiningException {
 		super(settings);
 		startPositon = startPos;
 		this.countElement = countElement;
@@ -43,7 +45,8 @@ public class MiningLoopVectors extends MiningLoop {
 	@Override
 	protected boolean conditionLoop(EMiningModel model) throws MiningException {
 		if(countElement < 0)
-    		return (model.getCurrentVectorIndex() < model.getNumberVectors());
+    		throw new MiningException(MiningErrorCode.INVALID_INPUT_DATA);
+			//return (model.getCurrentVectorIndex() < data.getVectorsNumber());
 		else {
 			return ((model.getCurrentVectorIndex() - startPositon) < countElement);
 		}
@@ -60,4 +63,8 @@ public class MiningLoopVectors extends MiningLoop {
 		return model;
 	}
 
+	@Override
+	public boolean isDataBlock() {
+		return true;
+	}
 }

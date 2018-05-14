@@ -3,9 +3,8 @@ package org.eltech.ddm.classification.naivebayes;
 import static org.junit.Assert.*;
 
 import org.eltech.ddm.classification.ClassificationMiningModel;
-import org.eltech.ddm.handlers.ExecutionSettings;
-import org.eltech.ddm.handlers.thread.MultiThreadedExecutionEnvironment;
-import org.eltech.ddm.handlers.thread.ThreadSettings;
+import org.eltech.ddm.classification.naivebayes.category.NaiveBayesAlgorithm;
+import org.eltech.ddm.environment.ConcurrencyExecutionEnvironment;
 import org.eltech.ddm.miningcore.MiningException;
 import org.eltech.ddm.miningcore.algorithms.MiningAlgorithm;
 import org.eltech.ddm.miningcore.miningfunctionsettings.EMiningAlgorithmSettings;
@@ -23,10 +22,9 @@ public class NaiveBayesAlgorithmVerParallelTest extends NaiveBayesModelTest {
 
 		algorithmSettings = new EMiningAlgorithmSettings();
 		// Create and tuning algorithm settings
-		algorithmSettings.setName(NaiveBayesAlgorithmVerParallel.class.getSimpleName());
-		algorithmSettings.setClassname(NaiveBayesAlgorithmVerParallel.class.getName());
+		algorithmSettings.setName(NaiveBayesAlgorithm.class.getSimpleName());
+		algorithmSettings.setClassname(NaiveBayesAlgorithm.class.getName());
 		algorithmSettings.setAlgorithm("Naive Bayes");
-		algorithmSettings.setNumberHandlers(NUMBER_HANDLERS);
 	}
 
 	@org.junit.Test
@@ -49,15 +47,10 @@ public class NaiveBayesAlgorithmVerParallelTest extends NaiveBayesModelTest {
 	}
 
 	private EMiningBuildTask createBuidTask() throws MiningException{
-		ExecutionSettings executionSettings = new ThreadSettings();
-		executionSettings.setDataSet(inputData);
-
-		MiningAlgorithm algorithm = new NaiveBayesAlgorithmVerParallel(miningSettings);
-		MultiThreadedExecutionEnvironment environment = new MultiThreadedExecutionEnvironment(executionSettings, algorithm);
-		algorithmSettings.setEnvironment(environment);
+		MiningAlgorithm algorithm = new NaiveBayesAlgorithm(miningSettings);
+		ConcurrencyExecutionEnvironment environment = new ConcurrencyExecutionEnvironment(NUMBER_HANDLERS, inputData);
 
 		EMiningBuildTask buildTask = new EMiningBuildTask();
-		buildTask.setInputStream(inputData);
 		buildTask.setMiningAlgorithm(algorithm);
 		buildTask.setMiningSettings(miningSettings);
 		buildTask.setExecutionEnvironment(environment);

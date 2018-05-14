@@ -9,12 +9,12 @@ public class EPhysicalAttribute extends PhysicalAttribute{
 	
 	public EPhysicalAttribute() {
 		
-	};
+	}
 	
 	public EPhysicalAttribute(String m_name, int m_fieldType) {
 		name.setString(m_name);
 		cloverETLFieldType = m_fieldType;
-	};
+	}
 	
 	public void setCloverETLFieldType(int new_cloverETLFieldType){
 		cloverETLFieldType = new_cloverETLFieldType;

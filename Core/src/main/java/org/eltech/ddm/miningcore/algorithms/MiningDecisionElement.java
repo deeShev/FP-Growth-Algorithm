@@ -51,15 +51,15 @@ public class MiningDecisionElement extends MiningDecision {
     }
 
     @Override
-    public EMiningModel execute(MiningInputStream dataSet, EMiningModel model) throws MiningException {
+    public EMiningModel execute(EMiningModel model) throws MiningException {
 
         EMiningModel result = model;
         if (rule.verify(model.getElement(indexSet))){
             if(trueBranch != null)
-                result = trueBranch.run(dataSet ,model);
+                result = trueBranch.run(model);
         } else{
             if(falseBranch != null)
-                result = falseBranch.run(dataSet, model);
+                result = falseBranch.run(model);
         }
 
         return result;

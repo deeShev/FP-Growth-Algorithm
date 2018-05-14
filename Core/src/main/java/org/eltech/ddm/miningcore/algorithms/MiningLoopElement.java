@@ -1,5 +1,6 @@
 package org.eltech.ddm.miningcore.algorithms;
 
+import org.eltech.ddm.inputdata.MiningInputStream;
 import org.eltech.ddm.miningcore.MiningException;
 import org.eltech.ddm.miningcore.miningfunctionsettings.EMiningFunctionSettings;
 import org.eltech.ddm.miningcore.miningmodel.EMiningModel;
@@ -31,7 +32,7 @@ public class MiningLoopElement extends MiningLoop {
 	 * @param block - iteration block
 	 * @throws MiningException
 	 */
-	MiningLoopElement(EMiningFunctionSettings settings, int[] indexSet, int startPos, int countElement, MiningSequence block) throws MiningException {
+	public MiningLoopElement(EMiningFunctionSettings settings, int[] indexSet, int startPos, int countElement, MiningSequence block) throws MiningException {
 		super(settings);
 		this.indexSet = indexSet;
 		startPositon = startPos;
@@ -65,7 +66,7 @@ public class MiningLoopElement extends MiningLoop {
 		return model;
 	}
 
-	int[] getIndexSet() {
+	public int[] getIndexSet() {
 		return indexSet;
 	}
 

@@ -17,6 +17,21 @@ public class TransactionList extends ArrayList<Transaction> {
 		super(collection);
 	}
 
+//	public TransactionList getRoot() {
+//		return root;
+//	}
+//
+//	public void setRoot(TransactionList root) {
+//		this.root = root;
+//	}
+//
+//	public ItemSets getInBetweenItemsets() {
+//		return inBetweenItemsets;
+//	}
+//
+//	public void setInBetweenItemsets(ItemSets inBetweenItemsets) {
+//		this.inBetweenItemsets = inBetweenItemsets;
+//	}
 
 	public void print() {
 		System.out.println("TID | Items");

@@ -316,22 +316,6 @@ public abstract class MiningInputStream implements Cloneable, Serializable //ext
 
     protected abstract MiningVector movePhysicalRecord( int position ) throws MiningException;
 
-    // -----------------------------------------------------------------------
-    //  Methods of reading from the stream
-    // -----------------------------------------------------------------------
-    /**
-     * Reads the <code>MiningVector</code> on the current cursor position from
-     * the input stream.
-     *
-     * @return     the <code>MiningVector</code>
-     * @exception  MiningException  if an error occurs
-     */
-//    public MiningVector getCurrentVector() throws MiningException{
-//    	MiningVector vector = readVector();
-//    	vector.setIndex(offsetVectorIndex + cursorPosition);
-//    	return vector;
-//    }
-
 
     public int getOffsetVectorIndex() {
 		return offsetVectorIndex;

@@ -18,7 +18,7 @@ public class FormListOfItems extends MiningBlock {
      *
      * @param settings - settings for build model
      */
-    public FormListOfItems(EMiningFunctionSettings settings) throws MiningException {
+    public  FormListOfItems(EMiningFunctionSettings settings) throws MiningException {
         super(settings);
         support = ((AssociationRulesFunctionSettings) settings).getMinSupport();
 

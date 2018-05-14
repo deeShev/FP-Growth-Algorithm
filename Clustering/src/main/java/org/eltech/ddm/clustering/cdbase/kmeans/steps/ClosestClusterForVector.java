@@ -32,9 +32,9 @@ public class ClosestClusterForVector extends MiningBlock {
 		if(v.getDistanceToCenter() > vc.getDistance()){
 			v.setIndexCluster(iCluster);
 			v.setDistanceToCenter(vc.getDistance());
-			System.out.println("Thread-" + Thread.currentThread().getName() + " vector  " + iVec +" in cluster " + iCluster + " d=" + v.getDistanceToCenter());
+			//System.out.println("Thread-" + Thread.currentThread().getName() + " vector  " + iVec +" in cluster " + iCluster + " d=" + v.getDistanceToCenter());
 		}
-		System.out.println("Thread-" + Thread.currentThread().getName() + " v=" + v);
+		//System.out.println("Thread-" + Thread.currentThread().getName() + " v=" + v);
 		vc.setDistance(0);
 
 		return model;

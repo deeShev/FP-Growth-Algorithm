@@ -3,10 +3,10 @@
  */
 package org.eltech.ddm.miningcore.miningdata;
 
+import javax.datamining.data.AttributeDataType;
+
 import org.omg.java.cwm.analysis.datamining.miningcore.miningdata.AttributeType;
 import org.omg.java.cwm.analysis.datamining.miningcore.miningdata.MiningAttribute;
-
-import javax.datamining.data.AttributeDataType;
 
 /**
  * The interface PhysicalDataSet serves as a common interface for describing data to be used
@@ -26,12 +26,15 @@ public class PhysicalAttribute extends MiningAttribute //implements javax.datami
 
 	private PhysicalAttributeRole role;
 
-	public PhysicalAttribute(String attrName, AttributeType numerical, AttributeDataType doubleType) {
-
+	public PhysicalAttribute(String attrName, AttributeType attrType, AttributeDataType dataType) {
+		setName(attrName);
+		this.dataType = dataType;
+		this.attributeType = attrType;
 	}
 
 	public PhysicalAttribute() {
 	}
+
 
 	/**
 	 * Returns the data type of the attribute.

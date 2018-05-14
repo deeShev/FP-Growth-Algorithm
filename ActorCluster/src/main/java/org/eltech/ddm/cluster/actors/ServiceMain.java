@@ -4,8 +4,6 @@ import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import akka.actor.PoisonPill;
 import akka.actor.Props;
-import akka.contrib.pattern.ClusterSingletonManager;
-import akka.contrib.pattern.ClusterSingletonProxy;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 import org.omg.java.cwm.objectmodel.core.*;
@@ -50,7 +48,7 @@ public class ServiceMain {
 
         if (seedNode != null) {
             config = ConfigFactory
-                    .parseString("akka.cluster.seed-nodes = [\"akka.tcp://ClusterSystem@" + seedNode + "\"]")
+                    .parseString("akka.cluster.seed-nodes = [\"akka.tcp://MiningClusterSystem@" + seedNode + "\"]")
                     .withFallback(config);
         }
 
@@ -60,14 +58,14 @@ public class ServiceMain {
         ActorSystem system = ActorSystem.create(systemName, config);
 
         // singleton manager for executor service
-        ActorRef execService = system.actorOf(ClusterSingletonManager.defaultProps(
-                Props.create(ActorRouter.class),
-                "singleton",
-                PoisonPill.getInstance(),
-                null), ActorRouter.ACTOR_NAME);
-
-        ActorRef execServicePrx = system.actorOf(ClusterSingletonProxy.defaultProps(ActorRouter.ACTOR_PATH, null),
-                ActorRouter.ACTOR_NAME + "Proxy");
+//        ActorRef execService = system.actorOf(ClusterSingletonManager.defaultProps(
+//                Props.create(ActorRouter.class),
+//                "singleton",
+//                PoisonPill.getInstance(),
+//                null), ActorRouter.ACTOR_NAME);
+//
+//        ActorRef execServicePrx = system.actorOf(ClusterSingletonProxy.defaultProps(ActorRouter.ACTOR_PATH, null),
+//                ActorRouter.ACTOR_NAME + "Proxy");
 
         // singleton manager for model exchanger
 //        ActorRef modelExch = system.actorOf(ClusterSingletonManager.defaultProps(

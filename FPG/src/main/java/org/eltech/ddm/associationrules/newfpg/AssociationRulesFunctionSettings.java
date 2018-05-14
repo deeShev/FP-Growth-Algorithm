@@ -10,6 +10,8 @@ public class AssociationRulesFunctionSettings extends EMiningFunctionSettings {
 
     private final String TAG_NAME_TRANSACTION_ID_ATTRIBUTE = "transactionIDsAttributeName";
 
+    private final String TAG_STATUS = "status";
+
     /**
      * This specifies the minimum confidence value for each association rule to
      * be found.
@@ -31,10 +33,12 @@ public class AssociationRulesFunctionSettings extends EMiningFunctionSettings {
         super(ld);
         addTaggedValue(TAG_NAME_ITEM_ID_ATTRIBUTE, null, "String");
         addTaggedValue(TAG_NAME_TRANSACTION_ID_ATTRIBUTE, null, "String");
+        addTaggedValue(TAG_STATUS, null, "String");
         addTaggedValue(TAG_MIN_CONFIDIENCE, null, "double");
         addTaggedValue(TAG_MAX_RULE_LENGTH, null, "int");
         addTaggedValue(TAG_MIN_SUPPORT, null, "double");
     }
+
 
     @Override
     public MiningFunction getMiningFunction() {
@@ -48,6 +52,8 @@ public class AssociationRulesFunctionSettings extends EMiningFunctionSettings {
         else
             return Double.parseDouble(v);
     }
+
+
 
     public void setMinConfidence(double minimumConfidence) {
         setTaggedValue(TAG_MIN_CONFIDIENCE, String.valueOf(minimumConfidence));
@@ -88,4 +94,6 @@ public class AssociationRulesFunctionSettings extends EMiningFunctionSettings {
     public void setMinSupport(double minimumSupport) {
         setTaggedValue(TAG_MIN_SUPPORT, String.valueOf(minimumSupport));
     }
+
+
 }

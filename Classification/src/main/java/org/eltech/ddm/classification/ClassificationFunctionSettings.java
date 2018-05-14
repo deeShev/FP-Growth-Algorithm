@@ -3,7 +3,6 @@ package org.eltech.ddm.classification;
 import org.eltech.ddm.miningcore.miningdata.ELogicalAttribute;
 import org.eltech.ddm.miningcore.miningdata.ELogicalData;
 import org.eltech.ddm.miningcore.miningfunctionsettings.MiningFunction;
-import org.eltech.ddm.miningcore.miningfunctionsettings.EMiningFunctionSettings;
 import org.eltech.ddm.supervised.ESupervisedFunctionSettings;
 import org.omg.java.cwm.analysis.datamining.miningcore.miningdata.CategoryMatrix;
 

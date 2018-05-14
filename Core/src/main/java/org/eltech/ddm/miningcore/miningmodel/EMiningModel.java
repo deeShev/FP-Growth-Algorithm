@@ -451,13 +451,13 @@ public abstract class EMiningModel extends MiningModel implements  Cloneable  //
 		currents.put(Arrays.toString(INDEX_VECTOR_SET), currentVector);
 	}
 
-	public int getNumberVectors() {
-		return numberVectors;
-	}
-
-	public void setNumberVectors(int vectorsNumber) {
-		numberVectors = vectorsNumber;
-	}
+//	public int getNumberVectors() {
+//		return numberVectors;
+//	}
+//
+//	public void setNumberVectors(int vectorsNumber) {
+//		numberVectors = vectorsNumber;
+//	}
 
 	public LogicalAttributeElement getCurrentAttribute() throws MiningException {
 		return (LogicalAttributeElement)getElement(EMiningModel.INDEX_CURRENT_ATTRIBUTE);

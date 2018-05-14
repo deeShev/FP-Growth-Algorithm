@@ -1,3 +1,4 @@
+/*
 package org.eltech.ddm.associationrules.newfpg.fpg;
 
 import org.eltech.ddm.associationrules.newfpg.AssociationRulesMiningModel;
@@ -56,3 +57,4 @@ public class FPGAlgorithmHorParallel extends FPGAlgorithm {
         blocks.addListenerExecute(new BlockExecuteTimingListner());
     }
 }
+*/

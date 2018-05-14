@@ -20,7 +20,7 @@ public class ClassificationMiningModelTest {
 	// ==== Methods for data attributes Weather Nominal ===============
 	protected void setInputData4WeatherNominal() throws MiningException {
 		// Load input data
-		inputData = new MiningArffStream("/home/denis/Programs/iiholod-dxelopes4students-01a8bcabadfc/data/arff/weather-nominal.arff");
+		inputData = new MiningArffStream("..\\data\\arff\\weather-nominal.arff");
 	}
 	
 	

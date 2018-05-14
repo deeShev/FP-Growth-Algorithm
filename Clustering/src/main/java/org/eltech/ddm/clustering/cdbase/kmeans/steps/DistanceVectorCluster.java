@@ -24,7 +24,7 @@ public class DistanceVectorCluster extends MiningBlock {
     }
 
     @Override
-    protected EMiningModel execute(MiningInputStream inputData, EMiningModel model) throws MiningException {
+    protected EMiningModel execute(EMiningModel model) throws MiningException {
         int iVec = model.getCurrentVectorIndex();
         int iCluster = ((ClusteringMiningModel)model).getCurrentClusterIndex();
         VectorCluster vc = ((KMeansMiningModel)model).getVectorsCluster(iVec, iCluster);

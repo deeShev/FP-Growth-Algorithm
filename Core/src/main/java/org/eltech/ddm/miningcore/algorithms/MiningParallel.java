@@ -1,33 +1,26 @@
 package org.eltech.ddm.miningcore.algorithms;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.eltech.ddm.handlers.ExecutionHandlerFactory;
-import org.eltech.ddm.inputdata.MiningInputStream;
 import org.eltech.ddm.miningcore.MiningErrorCode;
 import org.eltech.ddm.miningcore.MiningException;
 import org.eltech.ddm.miningcore.miningfunctionsettings.EMiningFunctionSettings;
 import org.eltech.ddm.miningcore.miningmodel.EMiningModel;
 import org.eltech.ddm.miningcore.miningmodel.MiningModelElement;
 
-public class MiningParallel extends MiningBlock {
+import java.util.ArrayList;
+import java.util.List;
 
-//    protected final DataProcessingStrategy dataHandlingStrategy;
-//
-//    protected final MiningModelProcessingStrategy modelHandlingStrategy;
+public class MiningParallel extends MiningBlock {
 
     protected final MiningBlock[] blocks;
 
     protected MemoryType memoryType;
 
-    protected boolean isDataParallelize = false;
+    protected int handlersNumber;
 
-    protected final int handlersNumber;
-
+    protected List<MiningExecutor> executors;
 
     /**
-     * Constructor for task-parallelization
+     * Constructor for parallelization
      * @param settings
      * @param memory - type of memory(shared or distributed)
      * @param blocks - list of parallel mining blocks
@@ -38,33 +31,18 @@ public class MiningParallel extends MiningBlock {
         this.blocks = blocks;
         memoryType = memory;
         handlersNumber = blocks.length;
+        executors = new ArrayList<>();
      }
 
-    /**
-     * Constructor for data-parallelization
-     * @param settings
-     * @param memory - type of memory(shared or distributed)
-     * @param block - parallel mining block
-     * @throws MiningException
-     */
-     public MiningParallel(EMiningFunctionSettings settings, MemoryType memory, MiningBlock block) throws MiningException {
-        super(settings);
-        memoryType = memory;
+     @Override
+    protected EMiningModel execute(EMiningModel model) throws MiningException {
 
-        handlersNumber = algorithmSettings.getNumberHandlers();
-        this.blocks = new MiningBlock[handlersNumber];
-        this.blocks[0] = block;
-        isDataParallelize = true;
-    }
-
-    @Override
-    protected EMiningModel execute(MiningInputStream dataSet, EMiningModel model) throws MiningException {
-
-        if(isDataParallelize){
+        if(blocks.length == 1){ // data-parallelization
             if(!(blocks[0] instanceof MiningLoop))
                 throw new MiningException(MiningErrorCode.PARALLEL_EXECUTION_ERROR);
 
             MiningLoop block = (MiningLoop)blocks[0];
+            MiningExecutor handler = executors.get(0);
 
             int startPos = 0;
             if(block instanceof MiningLoopElement) {
@@ -72,21 +50,12 @@ public class MiningParallel extends MiningBlock {
                 MiningModelElement elem = model.getElement(index);
                 int countElement = elem.size() / handlersNumber;
                 int mod = elem.size() % handlersNumber;
-                blocks[0] = new MiningLoopElement(functionSettings, index, startPos, countElement + mod, block.getIteration());
+                handler.setBlock(new MiningLoopElement(functionSettings, index, startPos, countElement + mod, block.getIteration()));
                 startPos += countElement + mod;
                 for (int i = 1; i < handlersNumber; i++) {
-                    blocks[i] = new MiningLoopElement(functionSettings, index, startPos, countElement, block.getIteration());
-                    startPos += countElement;
-                }
-
-            } else if(block instanceof MiningLoopVectors){
-                MiningInputStream data = dataSet;
-                int countElement = data.getVectorsNumber() / handlersNumber;
-                int mod = data.getVectorsNumber() % handlersNumber;
-                blocks[0] = new MiningLoopVectors(functionSettings, startPos, countElement + mod, block.getIteration());
-                startPos += countElement + mod;
-                for (int i = 1; i < handlersNumber; i++) {
-                    blocks[i] = new MiningLoopVectors(functionSettings, startPos, countElement, block.getIteration());
+                    MiningExecutor h = (MiningExecutor)handler.clone();
+                    h.setBlock(new MiningLoopElement(functionSettings, index, startPos, countElement, block.getIteration()));
+                    executors.add(h);
                     startPos += countElement;
                 }
             }
@@ -105,31 +74,71 @@ public class MiningParallel extends MiningBlock {
 	private List<EMiningModel> fork(EMiningModel model)
 			throws MiningException {
 
-        ExecutionHandlerFactory handlerFactory = algorithmSettings.getEnvironment().getExecutionHandlerFactory();
-
-        // init and start all handlers
-        List<ExecutionHandler> handlers = new ArrayList<ExecutionHandler>();
-        for (int i = 0; i < handlersNumber; i++) {
-            ExecutionHandler h = handlerFactory.create();
-            handlers.add(h);
+        for(int i = 0;  i < executors.size()-1; i++){
+            MiningExecutor executor = executors.get(i);
             if(memoryType == MemoryType.distributed)
-                h.start(blocks[i], (EMiningModel) model.clone());
+                executor.start((EMiningModel) model.clone());
             else
-                h.start(blocks[i], (EMiningModel) model.share());
+                executor.start( model.share());
         }
 
-        // finished all handlers
-        ArrayList<EMiningModel> resModels = new ArrayList<EMiningModel>();
-        for (ExecutionHandler handler : handlers) {
-            resModels.add(handler.getModel());
+        MiningExecutor lastExecutor =  executors.get(executors.size()-1);
+        ArrayList<EMiningModel> resModels = new ArrayList<>();
+        if(memoryType == MemoryType.distributed)
+            resModels.add(lastExecutor.getBlock().execute((EMiningModel) model.clone()));
+        else
+            resModels.add(lastExecutor.getBlock().execute(model.share()));
+
+        // finished all executors
+        for(int i = 0;  i < executors.size()-1; i++){
+            MiningExecutor executor = executors.get(i);
+            resModels.add(executor.getModel());
         }
 
         return resModels;
     }
 
+    public boolean isDataBlock(){
+        boolean flag = false;
+        for (MiningBlock block: blocks)
+            flag = flag ||  block.isDataBlock();
+
+        return flag;
+    }
+
+    public void addExecutor(MiningExecutor handler){
+         executors.add(handler);
+    }
+
+    public List<MiningExecutor> getExecutors(){
+        return executors;
+    }
+
+    public MiningBlock[] getBlocks(){
+        return blocks;
+    }
+
+    public void setHandlersNumber(int handlersNumber) {
+        this.handlersNumber = handlersNumber;
+    }
+
+    @Override
+    public Object clone() {
+        MiningParallel o = (MiningParallel) super.clone();
+
+        if (executors != null) {
+            o.executors = new ArrayList<MiningExecutor>();
+            for (MiningExecutor exec : executors) {
+                o.executors.add((MiningExecutor)exec.clone());
+            }
+        }
+
+        return o;
+    }
+
     /*
-     *   Definition listeners for parallel block
-     */
+         *   Definition listeners for parallel block
+         */
     protected ArrayList<BlockExecuteListener> listenersBeforeSplit = new ArrayList<BlockExecuteListener>();
     protected ArrayList<BlockExecuteListener> listenersAfterSplit = new ArrayList<BlockExecuteListener>();
     protected ArrayList<BlockExecuteListener> listenersBeforeJoin = new ArrayList<BlockExecuteListener>();

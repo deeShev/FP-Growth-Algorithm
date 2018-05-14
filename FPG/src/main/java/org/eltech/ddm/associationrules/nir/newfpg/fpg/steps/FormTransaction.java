@@ -5,11 +5,11 @@ import org.eltech.ddm.associationrules.nir.newfpg.fpg.FPGModel;
 import org.eltech.ddm.inputdata.MiningInputStream;
 import org.eltech.ddm.inputdata.MiningVector;
 import org.eltech.ddm.miningcore.MiningException;
-import org.eltech.ddm.miningcore.algorithms.MiningBlock;
+import org.eltech.ddm.miningcore.algorithms.DataMiningBlock;
 import org.eltech.ddm.miningcore.miningfunctionsettings.EMiningFunctionSettings;
 import org.eltech.ddm.miningcore.miningmodel.EMiningModel;
 
-public class FormTransaction extends MiningBlock {
+public class FormTransaction extends DataMiningBlock {
     private final String transactionIDsAttributeName;
     private final String itemIDsAttributeName;
     private final String status;
@@ -21,7 +21,7 @@ public class FormTransaction extends MiningBlock {
      */
     public FormTransaction(EMiningFunctionSettings settings) throws MiningException {
         super(settings);
-        itemIDsAttributeName = ((AssociationRulesFunctionSettings) settings).getItemIDsAttributeName();
+        itemIDsAttributeName =((AssociationRulesFunctionSettings) settings).getItemIDsAttributeName();
         transactionIDsAttributeName = ((AssociationRulesFunctionSettings) settings).getTransactionIDsAttributeName();
         status = ((AssociationRulesFunctionSettings) settings).getStatus();
     }
@@ -130,4 +130,6 @@ public class FormTransaction extends MiningBlock {
             transaction.setPositiveStatus(false);
         }
     }
+
+
 }

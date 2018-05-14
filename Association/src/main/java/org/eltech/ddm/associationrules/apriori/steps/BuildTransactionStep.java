@@ -9,11 +9,8 @@ import org.eltech.ddm.inputdata.MiningInputStream;
 import org.eltech.ddm.inputdata.MiningVector;
 import org.eltech.ddm.miningcore.MiningException;
 import org.eltech.ddm.miningcore.algorithms.Step;
-import org.eltech.ddm.miningcore.miningdata.ELogicalAttribute;
 import org.eltech.ddm.miningcore.miningfunctionsettings.EMiningFunctionSettings;
 import org.eltech.ddm.miningcore.miningmodel.EMiningModel;
-import org.omg.java.cwm.analysis.datamining.miningcore.miningfunctionsettings.MiningFunctionSettings;
-import org.omg.java.cwm.analysis.datamining.miningcore.miningmodel.MiningModel;
 
 public class BuildTransactionStep extends Step {
 
@@ -36,7 +33,7 @@ public class BuildTransactionStep extends Step {
 
 		AssociationRulesMiningModel modelA = (AssociationRulesMiningModel) model;
 		
-		int currentVector = model.getCurrentVector(); //(Integer)getStateParameter(model, EMiningModel.NAME_CURRENT_VECTOR);
+		int currentVector = model.getCurrentVectorIndex(); //(Integer)getStateParameter(model, EMiningModel.NAME_CURRENT_VECTOR);
 		MiningVector vector = inputData.getVector(currentVector);
 		String transId = (String) vector.getValueCategory(transactionIDsAttributeName).getValue();
 		String itemId = (String) vector.getValueCategory(itemIDsAttributeName).getValue();

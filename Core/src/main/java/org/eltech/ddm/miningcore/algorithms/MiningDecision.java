@@ -46,7 +46,7 @@ public abstract class MiningDecision extends MiningBlock {
 	abstract protected boolean condition(EMiningModel model) throws MiningException;
 
 	@Override
-	public EMiningModel execute(MiningInputStream dataSet, EMiningModel model) throws MiningException {
+	public EMiningModel execute(EMiningModel model) throws MiningException {
 		boolean cond;
 
 		this.notifyBeforeCondition();
@@ -56,15 +56,24 @@ public abstract class MiningDecision extends MiningBlock {
 		EMiningModel result = null;
 		if (cond){
 			if(trueBranch != null)
-				result = trueBranch.run(dataSet, model);
+				result = trueBranch.run(model);
 		} else{
 			if(falseBranch != null)
-				result = falseBranch.run(dataSet, model);
+				result = falseBranch.run(model);
 		}
 
 		return result;
 	}
 
+	public boolean isDataBlock(){
+		boolean flag = false;
+		if(trueBranch != null)
+			flag = flag ||  trueBranch.isDataBlock();
+		if(falseBranch != null)
+			flag = flag ||  falseBranch.isDataBlock();
+
+		return flag;
+	}
 
 	/**
 	 * @return the trueBranch

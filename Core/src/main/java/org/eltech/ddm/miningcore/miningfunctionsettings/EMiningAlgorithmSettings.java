@@ -3,16 +3,11 @@
  */
 package org.eltech.ddm.miningcore.miningfunctionsettings;
 
-import java.io.Serializable;
-
-import javax.datamining.VerificationReport;
-
-import org.eltech.ddm.handlers.ExecutionEnvironment;
-import org.eltech.ddm.handlers.HandlerType;
-import org.eltech.ddm.miningcore.algorithms.MemoryType;
-import org.eltech.ddm.inputdata.DataSplitType;
 import org.eltech.ddm.miningcore.NamedObject;
 import org.omg.java.cwm.analysis.datamining.miningcore.miningfunctionsettings.MiningAlgorithmSettings;
+
+import javax.datamining.VerificationReport;
+import java.io.Serializable;
 
 /**
  *  CWM Class
@@ -33,93 +28,11 @@ public class EMiningAlgorithmSettings extends MiningAlgorithmSettings implements
 {
 	private static String algorithmsFileName = "config/algorithms.xml"; // ?
 
-	//private MiningAlgorithmParameter[] inputAttribute;
-
 	private String algorithm;
 
 	private String classname;
 
 	private String version;
-
-	/**
-	 * 	This is parameter for choosing of data processing strategy
-	 */
-	private DataProcessingStrategy dataProcessingStrategy = DataProcessingStrategy.SingleDataSet;
-
-    /**
-     * 	This is parameter the choice of model processing strategy
-     */
-	private MiningModelProcessingStrategy modelProcessingStrategy = MiningModelProcessingStrategy.SingleMiningModel;
-
-	private DataSplitType dataSplitType = DataSplitType.full;
-
-	/**
-	 * This is number of computing processors (handlers) on which the parallel algorithm will be executed
-	 */
-	protected int numberHandlers = 1;
-
-	/**
-	 * This is type of system fulfilling the parallel algorithm execution
-	 */
-	protected HandlerType systemType;
-
-	protected ExecutionEnvironment environment;
-
-	/**
-	 *  This is  memory type of the system which will be fulfilling the execution of the parallel algorithm
-	 */
-	protected MemoryType memoryType = MemoryType.distributed;
-
-	/**
-	 * Complete index of mining model's attributes that will be processed by concuarently.
-	 */
-	protected int[] parallelizedMiningModelSet;
-
-
-	//	private ArrayList<HandlerSettings> handlersSettings = new ArrayList<HandlerSettings>();
-//
-//	// ?
-//	private static int adapterCursor = 0;
-//
-//	private String[] dataFiles;
-//
-//	private SenderStep senderStep = null;
-//
-//	public SenderStep getSenderStep() {
-//		return senderStep;
-//	}
-//
-//	public void setActorSenderStep(SenderStep senderStep) {
-//		this.senderStep = senderStep;
-//	}
-//
-//	public void addHandler(HandlerSettings handlerSettings) {
-//		this.handlersSettings.add(handlerSettings);
-//	}
-///*
-//	public HandlerSettings getHandler(int index) {
-//		return handlersSettings.getElement(index);
-//	}
-//*/
-//	public HandlerSettings getHandler(boolean incrementCursor) {
-//		if(incrementCursor) {
-//			return handlersSettings.getElement(adapterCursor++);
-//		}
-//		else
-//			return handlersSettings.getElement(adapterCursor);
-//	}
-//
-//	public void setDataFiles(String[] dataFiles) {
-//		this.dataFiles = dataFiles;
-//	}
-//
-//	/**
-//	 * @return the dataFiles
-//	 */
-//	public String[] getDataFiles() {
-//		return dataFiles;
-//	}
-
 
 	/**
 	 * Verifies if the settings are valid to some degree of correctness as specified by the vendor.
@@ -128,9 +41,6 @@ public class EMiningAlgorithmSettings extends MiningAlgorithmSettings implements
 	 * @return
 	 */
 	public VerificationReport verify() {
-		if((modelProcessingStrategy == MiningModelProcessingStrategy.SeparatedMiningModel) &&
-			(parallelizedMiningModelSet == null))
-			return null;
 
 		return null;
 	}
@@ -196,70 +106,4 @@ public class EMiningAlgorithmSettings extends MiningAlgorithmSettings implements
 		return NamedObject.algorithmSettings;
 	}
 
-
-	public DataProcessingStrategy getDataProcessingStrategy() {
-		return dataProcessingStrategy;
-	}
-
-	public void setDataProcessingStrategy(DataProcessingStrategy dataHandlingStrategy) {
-		this.dataProcessingStrategy = dataHandlingStrategy;
-	}
-
-	public MiningModelProcessingStrategy getModelProcessingStrategy() {
-		return modelProcessingStrategy;
-	}
-
-	public void setModelProcessingStrategy(MiningModelProcessingStrategy modelHandlingStrategy) {
-		this.modelProcessingStrategy = modelHandlingStrategy;
-	}
-
-	public void setDataSplitType(DataSplitType type) {
-		dataSplitType = type;
-	}
-
-	public DataSplitType getDataSplitType() {
-		return dataSplitType;
-	}
-
-	public int getNumberHandlers() {
-		return numberHandlers;
-	}
-
-	public void setNumberHandlers(int numberHandlers) {
-		this.numberHandlers = numberHandlers;
-	}
-
-	public HandlerType getSystemType() {
-		return systemType;
-	}
-
-	public void setSystemType(HandlerType systemType) {
-		this.systemType = systemType;
-	}
-
-	public MemoryType getMemoryType() {
-		return memoryType;
-	}
-
-	public void setMemoryType(MemoryType memoryType) {
-		this.memoryType = memoryType;
-	}
-
-
-	public int[] getParallelizedMiningModelSet() {
-		return parallelizedMiningModelSet;
-	}
-
-	public void setParallelizedMiningModelSet(int[] index) {
-		parallelizedMiningModelSet = index;
-	}
-
-
-	public ExecutionEnvironment getEnvironment() {
-		return environment;
-	}
-
-	public void setEnvironment(ExecutionEnvironment environment) {
-		this.environment = environment;
-	}
 }

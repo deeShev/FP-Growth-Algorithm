@@ -6,6 +6,7 @@ import org.eltech.ddm.miningcore.miningfunctionsettings.EMiningFunctionSettings;
 import org.eltech.ddm.miningcore.miningmodel.EMiningModel;
 import org.eltech.ddm.miningcore.miningmodel.MiningModelElement;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AssociationRulesMiningModel extends EMiningModel {
@@ -34,7 +35,7 @@ public class AssociationRulesMiningModel extends EMiningModel {
 
             @Override
             public void merge(List<MiningModelElement> elements) throws MiningException {
-
+                set = new ArrayList<>();
             }
         });
         sets.add(LARGE_ITEM_SETS_LIST, new LargeItemSetsList("Large item sets"));

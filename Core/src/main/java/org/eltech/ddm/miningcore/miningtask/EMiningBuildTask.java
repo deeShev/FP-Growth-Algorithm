@@ -1,16 +1,13 @@
 package org.eltech.ddm.miningcore.miningtask;
 
 
-import org.eltech.ddm.handlers.ExecutionEnvironment;
-import org.eltech.ddm.inputdata.MiningInputStream;
+import org.eltech.ddm.environment.ExecutionEnvironment;
 import org.eltech.ddm.miningcore.MiningException;
 import org.eltech.ddm.miningcore.algorithms.MiningAlgorithm;
 import org.eltech.ddm.miningcore.miningdata.EAttributeAssignmentSet;
 import org.eltech.ddm.miningcore.miningdata.EPhysicalData;
-import org.eltech.ddm.miningcore.miningfunctionsettings.DataProcessingStrategy;
 import org.eltech.ddm.miningcore.miningfunctionsettings.EMiningAlgorithmSettings;
 import org.eltech.ddm.miningcore.miningfunctionsettings.EMiningFunctionSettings;
-import org.eltech.ddm.miningcore.miningfunctionsettings.MiningModelProcessingStrategy;
 import org.eltech.ddm.miningcore.miningmodel.EMiningModel;
 import org.omg.java.cwm.analysis.datamining.miningcore.miningmodel.MiningModel;
 import org.omg.java.cwm.analysis.datamining.miningcore.miningtask.MiningBuildTask;
@@ -33,8 +30,6 @@ public class EMiningBuildTask extends MiningBuildTask // implements BuildTask
 	protected MiningAlgorithm miningAlgorithm;
 	
 	protected ExecutionEnvironment executionEnvironment;
-	
-	protected MiningInputStream inputStream;
 	
 	// fields added for JDMAPI
 	private String applicationName;
@@ -212,14 +207,6 @@ public class EMiningBuildTask extends MiningBuildTask // implements BuildTask
 		this.executionEnvironment = executionEnvironment;
 	}
 
-	public MiningInputStream getInputStream() {
-		return inputStream;
-	}
-
-	public void setInputStream(MiningInputStream inputStream) {
-		this.inputStream = inputStream;
-	}
-	
 	public boolean verify(){
 		if(miningSettings == null)
 			return false;
@@ -230,34 +217,24 @@ public class EMiningBuildTask extends MiningBuildTask // implements BuildTask
 		if(executionEnvironment == null)
 			return false;
 		
-		if(inputStream == null)
-			return false;
-		
+
 		if (miningAlgorithm == null)
 			return false;
 
 		EMiningAlgorithmSettings algSettings = ((EMiningFunctionSettings)miningSettings).getAlgorithmSettings();
 		
-		if(((algSettings.getModelProcessingStrategy() == MiningModelProcessingStrategy.SingleMiningModel) &&
-//				(executionEnvironment.getMemoryType() == MemoryType.shared) &&
-				(algSettings.getDataProcessingStrategy() == DataProcessingStrategy.SingleDataSet)))
-			return false;
-
 		return true;
 	}
 
 	public MiningModel execute() throws MiningException {
 		
 		verify();
-		
-		//miningAlgorithm.setMiningSettings((EMiningFunctionSettings)miningSettings);
-		//miningAlgorithm.initBlocks();
-		
-//		executionEnvironment.deployAlgorithm(miningAlgorithm);
 
-		resultModel = miningAlgorithm.initModel(inputStream);
+		executionEnvironment.deploy(miningAlgorithm);
+
+		resultModel = miningAlgorithm.initModel();
 		
-		resultModel = executionEnvironment.runAlgorithm(inputStream,(EMiningModel) resultModel);
+		resultModel = executionEnvironment.runAlgorithm((EMiningModel) resultModel);
 		
 		return resultModel;
 	}

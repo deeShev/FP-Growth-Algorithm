@@ -203,10 +203,24 @@ abstract public class MiningModelElement implements Cloneable { // , Iterable<Mi
         for(List<MiningModelElement> list: lists.values()) {
             if (list.isEmpty())
                 continue;
+            //Denis ispravil  MiningModelElement nset = list.get(0).createNewCopyElement();
 
-            MiningModelElement nset = list.get(0).createNewCopyElement();
+           //Денис исправил
+            //MiningModelElement nset = list.get(0).createNewCopyElement();
+            MiningModelElement nset;
+
             //list.remove(0);
-            nset.union(list);
+
+            //Денис добавил
+            if (list.size()==1){
+                nset = list.get(0);
+            }else {
+                nset = list.get(0);
+                nset.union(list);
+            }
+
+        //nset.union(list);
+
             add(nset);
             //System.out.println("Thread-" + Thread.currentThread().getName() + " add " + nset);
         }

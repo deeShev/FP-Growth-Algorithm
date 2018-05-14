@@ -5,12 +5,11 @@ import org.eltech.ddm.clustering.cdbase.Coordinate;
 import org.eltech.ddm.inputdata.MiningInputStream;
 import org.eltech.ddm.inputdata.MiningVector;
 import org.eltech.ddm.miningcore.MiningException;
-import org.eltech.ddm.miningcore.algorithms.MiningBlock;
+import org.eltech.ddm.miningcore.algorithms.DataMiningBlock;
 import org.eltech.ddm.miningcore.miningfunctionsettings.EMiningFunctionSettings;
 import org.eltech.ddm.miningcore.miningmodel.EMiningModel;
-import org.eltech.ddm.miningcore.miningmodel.LogicalAttributeElement;
 
-public class InitClusterByVectors extends MiningBlock {
+public class InitClusterByVectors extends DataMiningBlock{
 
 	public InitClusterByVectors(EMiningFunctionSettings settings)
 			throws MiningException {

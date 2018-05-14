@@ -1,20 +1,20 @@
 package org.eltech.ddm.clustering.cdbase.kmeans.steps;
 
 import org.eltech.ddm.clustering.ClusteringMiningModel;
+import org.eltech.ddm.clustering.cdbase.kmeans.KMeansMiningModel;
 import org.eltech.ddm.clustering.cdbase.kmeans.VectorAssignment;
 import org.eltech.ddm.clustering.cdbase.kmeans.VectorCluster;
-import org.eltech.ddm.clustering.cdbase.kmeans.KMeansMiningModel;
 import org.eltech.ddm.inputdata.MiningInputStream;
 import org.eltech.ddm.inputdata.MiningVector;
 import org.eltech.ddm.miningcore.MiningException;
-import org.eltech.ddm.miningcore.algorithms.MiningBlock;
+import org.eltech.ddm.miningcore.algorithms.DataMiningBlock;
 import org.eltech.ddm.miningcore.miningfunctionsettings.EMiningFunctionSettings;
 import org.eltech.ddm.miningcore.miningmodel.EMiningModel;
 
 /**
  * @author iholod
  */
-public class AccumulateDistanceVectorCluster extends MiningBlock {
+public class AccumulateDistanceVectorCluster extends DataMiningBlock {
 
     public AccumulateDistanceVectorCluster(EMiningFunctionSettings settings)
             throws MiningException {

@@ -5,13 +5,8 @@ import static org.junit.Assert.fail;
 import org.eltech.ddm.clustering.AggregationFunction;
 import org.eltech.ddm.clustering.ClusteringMiningModel;
 import org.eltech.ddm.clustering.cdbase.CDBaseModelTest;
-import org.eltech.ddm.handlers.ExecutionSettings;
-import org.eltech.ddm.handlers.thread.MultiThreadedExecutionEnvironment;
-import org.eltech.ddm.handlers.thread.ThreadSettings;
-import org.eltech.ddm.inputdata.DataSplitType;
+import org.eltech.ddm.environment.ConcurrencyExecutionEnvironment;
 import org.eltech.ddm.miningcore.algorithms.MiningAlgorithm;
-import org.eltech.ddm.miningcore.miningfunctionsettings.DataProcessingStrategy;
-import org.eltech.ddm.miningcore.miningfunctionsettings.MiningModelProcessingStrategy;
 import org.eltech.ddm.miningcore.miningtask.EMiningBuildTask;
 import org.junit.Before;
 import org.junit.Test;
@@ -44,22 +39,12 @@ public class KMeansAlgorithmHorParallelTest extends CDBaseModelTest{
 			miningSettings.setAggregationFunction(AggregationFunction.euclidian);
 			miningSettings.verify();
 			
-			miningAlgorithmSettings.setDataSplitType(DataSplitType.block);
-			miningAlgorithmSettings.setDataProcessingStrategy(DataProcessingStrategy.SeparatedDataSet );
-			miningAlgorithmSettings.setModelProcessingStrategy(MiningModelProcessingStrategy.SingleMiningModel);
-			miningAlgorithmSettings.setNumberHandlers(NUMBER_HANDLERS);
 
-			ExecutionSettings executionSettings = new ThreadSettings();
-			executionSettings.setNumberHandlers(NUMBER_HANDLERS);
-			executionSettings.setDataSet(inputData);
-
-			MiningAlgorithm algorithm = new KMeansAlgorithmHorParallel(miningSettings);
-			MultiThreadedExecutionEnvironment environment = new MultiThreadedExecutionEnvironment(executionSettings, algorithm);
-			miningAlgorithmSettings.setEnvironment(environment);
+			MiningAlgorithm algorithm = new KMeansAlgorithm(miningSettings);
+			ConcurrencyExecutionEnvironment environment = new ConcurrencyExecutionEnvironment(NUMBER_HANDLERS, inputData);
 
 			EMiningBuildTask buildTask = new EMiningBuildTask();
-			buildTask.setInputStream(inputData);
-			buildTask.setMiningAlgorithm(algorithm); 
+			buildTask.setMiningAlgorithm(algorithm);
 			buildTask.setMiningSettings(miningSettings);
 			buildTask.setExecutionEnvironment(environment);
 			model = (ClusteringMiningModel) buildTask.execute();
@@ -89,12 +74,12 @@ public class KMeansAlgorithmHorParallelTest extends CDBaseModelTest{
 //			miningAlgorithmSettings.setModelProcessingStrategy(MiningModelProcessingStrategy.SingleMiningModel);
 //			miningAlgorithmSettings.setNumberHandlers(NUMBER_HANDLERS);
 //
-//			ExecutionSettings executionSettings = new ThreadSettings();
+//			ExecutionEnvironmentSettings executionSettings = new ThreadSettings();
 //			executionSettings.setNumberHandlers(NUMBER_HANDLERS);
 //			executionSettings.setDataSet(inputData);
 //
 //			MiningAlgorithm algorithm = new KMeansAlgorithmHorParallel(miningSettings);
-//			MultiThreadedExecutionEnvironment environment = new MultiThreadedExecutionEnvironment(executionSettings, algorithm);
+//			ConcurrencyExecutionEnvironment environment = new ConcurrencyExecutionEnvironment(executionSettings, algorithm);
 //			miningAlgorithmSettings.setEnvironment(environment);
 //
 //			EMiningBuildTask buildTask = new EMiningBuildTask();
@@ -130,12 +115,12 @@ public class KMeansAlgorithmHorParallelTest extends CDBaseModelTest{
 //			miningAlgorithmSettings.setModelProcessingStrategy(MiningModelProcessingStrategy.SingleMiningModel);
 //			miningAlgorithmSettings.setNumberHandlers(NUMBER_HANDLERS);
 //
-//			ExecutionSettings executionSettings = new ThreadSettings();
+//			ExecutionEnvironmentSettings executionSettings = new ThreadSettings();
 //			executionSettings.setNumberHandlers(NUMBER_HANDLERS);
 //			executionSettings.setDataSet(inputData);
 //
 //			MiningAlgorithm algorithm = new KMeansAlgorithmHorParallel(miningSettings);
-//			MultiThreadedExecutionEnvironment environment = new MultiThreadedExecutionEnvironment(executionSettings, algorithm);
+//			ConcurrencyExecutionEnvironment environment = new ConcurrencyExecutionEnvironment(executionSettings, algorithm);
 //			miningAlgorithmSettings.setEnvironment(environment);
 //
 //			EMiningBuildTask buildTask = new EMiningBuildTask();
@@ -171,12 +156,12 @@ public class KMeansAlgorithmHorParallelTest extends CDBaseModelTest{
 //			miningAlgorithmSettings.setModelProcessingStrategy(MiningModelProcessingStrategy.SingleMiningModel);
 //			miningAlgorithmSettings.setNumberHandlers(NUMBER_HANDLERS);
 //
-//			ExecutionSettings executionSettings = new ThreadSettings();
+//			ExecutionEnvironmentSettings executionSettings = new ThreadSettings();
 //			executionSettings.setNumberHandlers(NUMBER_HANDLERS);
 //			executionSettings.setDataSet(inputData);
 //
 //			MiningAlgorithm algorithm = new KMeansAlgorithmHorParallel(miningSettings);
-//			MultiThreadedExecutionEnvironment environment = new MultiThreadedExecutionEnvironment(executionSettings, algorithm);
+//			ConcurrencyExecutionEnvironment environment = new ConcurrencyExecutionEnvironment(executionSettings, algorithm);
 //			miningAlgorithmSettings.setEnvironment(environment);
 //
 //			EMiningBuildTask buildTask = new EMiningBuildTask();
@@ -214,12 +199,12 @@ public class KMeansAlgorithmHorParallelTest extends CDBaseModelTest{
 //			miningAlgorithmSettings.setModelProcessingStrategy(MiningModelProcessingStrategy.SingleMiningModel);
 //			miningAlgorithmSettings.setNumberHandlers(NUMBER_HANDLERS);
 //
-//			ExecutionSettings executionSettings = new ThreadSettings();
+//			ExecutionEnvironmentSettings executionSettings = new ThreadSettings();
 //			executionSettings.setNumberHandlers(NUMBER_HANDLERS);
 //			executionSettings.setDataSet(inputData);
 //
 //			MiningAlgorithm algorithm = new KMeansAlgorithmHorParallel(miningSettings);
-//			MultiThreadedExecutionEnvironment environment = new MultiThreadedExecutionEnvironment(executionSettings, algorithm);
+//			ConcurrencyExecutionEnvironment environment = new ConcurrencyExecutionEnvironment(executionSettings, algorithm);
 //			miningAlgorithmSettings.setEnvironment(environment);
 //
 //			EMiningBuildTask buildTask = new EMiningBuildTask();
@@ -255,12 +240,12 @@ public class KMeansAlgorithmHorParallelTest extends CDBaseModelTest{
 //			miningAlgorithmSettings.setModelProcessingStrategy(MiningModelProcessingStrategy.SingleMiningModel);
 //			miningAlgorithmSettings.setNumberHandlers(NUMBER_HANDLERS);
 //
-//			ExecutionSettings executionSettings = new ThreadSettings();
+//			ExecutionEnvironmentSettings executionSettings = new ThreadSettings();
 //			executionSettings.setNumberHandlers(NUMBER_HANDLERS);
 //			executionSettings.setDataSet(inputData);
 //
 //			MiningAlgorithm algorithm = new KMeansAlgorithmHorParallel(miningSettings);
-//			MultiThreadedExecutionEnvironment environment = new MultiThreadedExecutionEnvironment(executionSettings, algorithm);
+//			ConcurrencyExecutionEnvironment environment = new ConcurrencyExecutionEnvironment(executionSettings, algorithm);
 //			miningAlgorithmSettings.setEnvironment(environment);
 //
 //			EMiningBuildTask buildTask = new EMiningBuildTask();
@@ -296,12 +281,12 @@ public class KMeansAlgorithmHorParallelTest extends CDBaseModelTest{
 //			miningAlgorithmSettings.setModelProcessingStrategy(MiningModelProcessingStrategy.SingleMiningModel);
 //			miningAlgorithmSettings.setNumberHandlers(NUMBER_HANDLERS);
 //
-//			ExecutionSettings executionSettings = new ThreadSettings();
+//			ExecutionEnvironmentSettings executionSettings = new ThreadSettings();
 //			executionSettings.setNumberHandlers(NUMBER_HANDLERS);
 //			executionSettings.setDataSet(inputData);
 //
 //			MiningAlgorithm algorithm = new KMeansAlgorithmHorParallel(miningSettings);
-//			MultiThreadedExecutionEnvironment environment = new MultiThreadedExecutionEnvironment(executionSettings, algorithm);
+//			ConcurrencyExecutionEnvironment environment = new ConcurrencyExecutionEnvironment(executionSettings, algorithm);
 //			miningAlgorithmSettings.setEnvironment(environment);
 //
 //			EMiningBuildTask buildTask = new EMiningBuildTask();
@@ -340,12 +325,12 @@ public class KMeansAlgorithmHorParallelTest extends CDBaseModelTest{
 //			miningAlgorithmSettings.setNumberHandlers(NUMBER_HANDLERS);
 //			//miningAlgorithmSettings.setMaxNumberOfIterations(2);
 //
-//			ExecutionSettings executionSettings = new ThreadSettings();
+//			ExecutionEnvironmentSettings executionSettings = new ThreadSettings();
 //			executionSettings.setNumberHandlers(NUMBER_HANDLERS);
 //			executionSettings.setDataSet(inputData);
 //
 //			MiningAlgorithm algorithm = new KMeansAlgorithmHorParallel(miningSettings);
-//			MultiThreadedExecutionEnvironment environment = new MultiThreadedExecutionEnvironment(executionSettings, algorithm);
+//			ConcurrencyExecutionEnvironment environment = new ConcurrencyExecutionEnvironment(executionSettings, algorithm);
 //			miningAlgorithmSettings.setEnvironment(environment);
 //
 //			EMiningBuildTask buildTask = new EMiningBuildTask();
@@ -382,12 +367,12 @@ public class KMeansAlgorithmHorParallelTest extends CDBaseModelTest{
 //			miningAlgorithmSettings.setNumberHandlers(NUMBER_HANDLERS);
 //			//miningAlgorithmSettings.setMaxNumberOfIterations(2);
 //
-//			ExecutionSettings executionSettings = new ThreadSettings();
+//			ExecutionEnvironmentSettings executionSettings = new ThreadSettings();
 //			executionSettings.setNumberHandlers(NUMBER_HANDLERS);
 //			executionSettings.setDataSet(inputData);
 //
 //			MiningAlgorithm algorithm = new KMeansAlgorithmHorParallel(miningSettings);
-//			MultiThreadedExecutionEnvironment environment = new MultiThreadedExecutionEnvironment(executionSettings, algorithm);
+//			ConcurrencyExecutionEnvironment environment = new ConcurrencyExecutionEnvironment(executionSettings, algorithm);
 //			miningAlgorithmSettings.setEnvironment(environment);
 //
 //			EMiningBuildTask buildTask = new EMiningBuildTask();
@@ -424,12 +409,12 @@ public class KMeansAlgorithmHorParallelTest extends CDBaseModelTest{
 //			//miningAlgorithmSettings.setMaxNumberOfIterations(2);
 //			miningAlgorithmSettings.setNumberHandlers(NUMBER_HANDLERS);
 //
-//			ExecutionSettings executionSettings = new ThreadSettings();
+//			ExecutionEnvironmentSettings executionSettings = new ThreadSettings();
 //			executionSettings.setNumberHandlers(NUMBER_HANDLERS);
 //			executionSettings.setDataSet(inputData);
 //
 //			MiningAlgorithm algorithm = new KMeansAlgorithmHorParallel(miningSettings);
-//			MultiThreadedExecutionEnvironment environment = new MultiThreadedExecutionEnvironment(executionSettings, algorithm);
+//			ConcurrencyExecutionEnvironment environment = new ConcurrencyExecutionEnvironment(executionSettings, algorithm);
 //			miningAlgorithmSettings.setEnvironment(environment);
 //
 //			EMiningBuildTask buildTask = new EMiningBuildTask();

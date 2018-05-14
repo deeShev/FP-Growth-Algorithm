@@ -1,34 +1,28 @@
 package org.eltech.ddm.cluster.actors.messages;
 
-import org.eltech.ddm.inputdata.MiningInputStream;
-import org.eltech.ddm.miningcore.algorithms.Step;
-import org.eltech.ddm.miningcore.algorithms.StepSequence;
+
+import org.eltech.ddm.miningcore.algorithms.MiningBlock;
 import org.eltech.ddm.miningcore.miningmodel.EMiningModel;
 
 import java.io.Serializable;
 
 public class ExecuteJob implements Serializable {
-    private final Step step;
+    //private final MiningBlock block;
     private final EMiningModel miningModel;
-    private final MiningInputStream miningInputStream;
 
-    public ExecuteJob(MiningInputStream inputData, EMiningModel model, Step step) {
-        miningInputStream = inputData;
+    public ExecuteJob(EMiningModel model) {
         miningModel = model;
-       this.step = step;
+       //this.block = block;
     }
 
-    public Step getStep() {
-        return step;
-    }
+//    public MiningBlock getBlock() {
+//        return block;
+//    }
 
     public EMiningModel getMiningModel() {
         return miningModel;
     }
 
-    public MiningInputStream getMiningInputStream() {
-        return miningInputStream;
-    }
 }
 
 

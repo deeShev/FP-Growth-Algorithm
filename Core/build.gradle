@@ -1,5 +1,14 @@
 dependencies {
     compile project(':CWM')
+    compile group: 'com.univocity', name: 'univocity-parsers', version: '2.6.0'
     compile files('libs/jdm11.jar')
     compile files('libs/univocity-parsers-2_5_9.jar')
+
 }
+
+repositories {
+    mavenCentral()
+}
+
+
+

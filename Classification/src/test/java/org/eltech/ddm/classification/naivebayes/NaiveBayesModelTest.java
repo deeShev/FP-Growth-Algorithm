@@ -1,13 +1,9 @@
 package org.eltech.ddm.classification.naivebayes;
 
-import static org.junit.Assert.*;
-
-import org.eltech.ddm.classification.ClassificationMiningModel;
 import org.eltech.ddm.classification.ClassificationMiningModelTest;
-import org.eltech.ddm.miningcore.miningdata.ELogicalAttribute;
-import org.eltech.ddm.miningcore.miningdata.ELogicalData;
-import org.eltech.ddm.miningcore.miningmodel.EMiningModel;
-import org.junit.Test;
+import org.eltech.ddm.classification.naivebayes.category.NaiveBayesModel;
+
+import static org.junit.Assert.assertEquals;
 
 public class NaiveBayesModelTest extends ClassificationMiningModelTest {
 

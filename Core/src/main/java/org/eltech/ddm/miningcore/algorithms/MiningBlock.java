@@ -1,7 +1,5 @@
 package org.eltech.ddm.miningcore.algorithms;
 
-import org.eltech.ddm.inputdata.MiningInputStream;
-import org.eltech.ddm.miningcore.MiningErrorCode;
 import org.eltech.ddm.miningcore.MiningException;
 import org.eltech.ddm.miningcore.miningfunctionsettings.EMiningAlgorithmSettings;
 import org.eltech.ddm.miningcore.miningfunctionsettings.EMiningFunctionSettings;
@@ -19,42 +17,41 @@ public abstract class MiningBlock implements Cloneable, Serializable {
 	protected ArrayList<BlockExecuteListener> listenersAfterExecute = new ArrayList<BlockExecuteListener>();
 
 	/**
-	 * Constructor of algorithm's calculation step (not using data set)
+	 * Constructor of algorithm's block
 	 * @param settings - settings for build model
 	 */
 	protected MiningBlock(EMiningFunctionSettings settings)throws MiningException{
-		this.functionSettings = (EMiningFunctionSettings)settings;
-		this.algorithmSettings = (EMiningAlgorithmSettings)functionSettings.getAlgorithmSettings();
+		this.functionSettings = settings;
+		this.algorithmSettings = functionSettings.getAlgorithmSettings();
     }
 
 
 	/**
 	 * Method execute step of algorithm
 	 */
-	EMiningModel run(MiningInputStream dataSet, EMiningModel model) throws MiningException{
+	public EMiningModel run(EMiningModel model) throws MiningException{
 
 		this.notifyBeforeExecute();
-		EMiningModel result = this.execute(dataSet, model);
+		EMiningModel result = this.execute(model);
 		this.notifyAfterExecute();
 
 		return result;
 	}
 
 	/**
-	 * Method execute mining handler of algorithm
-	 */
-	protected EMiningModel execute(MiningInputStream dataSet, EMiningModel model) throws MiningException{
-		return execute(model);
-	};
-
-	/**
 	 * Method execute  mining calculator of algorithm
 	 */
-	protected EMiningModel execute(EMiningModel model) throws MiningException {
-		throw new MiningException(MiningErrorCode.WRONG_IMPLEMENTATION);
-	}
-	//-------- Listener methods
+	protected abstract EMiningModel execute(EMiningModel model) throws MiningException;
 
+	public boolean isDataBlock(){
+		return false;
+	}
+
+	public EMiningFunctionSettings getFunctionSettings(){
+		return functionSettings;
+	}
+
+	//-------- Listener methods
 	public void addListenerBeforeExecute(BlockExecuteListener listener){
 		MiningBlock.addListener(listener, listenersBeforeExecute);
 	}

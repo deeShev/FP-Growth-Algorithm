@@ -1,12 +1,15 @@
 package org.eltech.ddm.classification.naivebayes;
 
-import static org.junit.Assert.*;
-
 import org.eltech.ddm.classification.ClassificationMiningModel;
+import org.eltech.ddm.classification.naivebayes.category.NaiveBayesAlgorithm;
+import org.eltech.ddm.environment.ConcurrencyExecutionEnvironment;
+import org.eltech.ddm.miningcore.MiningException;
 import org.eltech.ddm.miningcore.algorithms.MiningAlgorithm;
 import org.eltech.ddm.miningcore.miningfunctionsettings.EMiningAlgorithmSettings;
+import org.eltech.ddm.miningcore.miningtask.EMiningBuildTask;
 import org.junit.Before;
-import org.junit.Test;
+
+import static org.junit.Assert.fail;
 
 public class NaiveBayesAlgorithmTest extends NaiveBayesModelTest {
 
@@ -19,33 +22,41 @@ public class NaiveBayesAlgorithmTest extends NaiveBayesModelTest {
 
 		// Create and tuning algorithm settings
 		algorithmSettings = new EMiningAlgorithmSettings();
-
 		algorithmSettings.setName("Naive Bayes");
-		algorithmSettings.setClassname("org.eltech.ddm.classification.naivebayes.NaiveBayesAlgorithm");
+		algorithmSettings.setClassname("org.eltech.ddm.classification.naivebayes.category.NaiveBayesAlgorithm");
 
 	}
 
 
-	@Test
+	@org.junit.Test
 	public void test4WeatherNominal() {
-		try
-		{
+		try {
 			setInputData4WeatherNominal();
 			setMiningSettings4WeatherNominal(algorithmSettings);
-			
-	        // Create and tuning algorithm
-	        algorithm = new NaiveBayesAlgorithm(miningSettings);
-			
-	        //Building model
-            model = (ClassificationMiningModel )algorithm.buildModel(inputData);
 
-	        verifyModel4WeatherNominal();
+			EMiningBuildTask buildTask = createBuidTask();
+
+			model = (ClassificationMiningModel) buildTask.execute();
+
+			verifyModel4WeatherNominal();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail();
 		}
-		catch( Exception ex )
-		{
- 		  ex.printStackTrace();
- 		  fail();
-		}
+
+	}
+
+	private EMiningBuildTask createBuidTask() throws MiningException {
+		MiningAlgorithm algorithm = new NaiveBayesAlgorithm(miningSettings);
+		ConcurrencyExecutionEnvironment environment = new ConcurrencyExecutionEnvironment(inputData);
+
+		EMiningBuildTask buildTask = new EMiningBuildTask();
+		buildTask.setMiningAlgorithm(algorithm);
+		buildTask.setMiningSettings(miningSettings);
+		buildTask.setExecutionEnvironment(environment);
+
+		return buildTask;
 	}
 	
 }
