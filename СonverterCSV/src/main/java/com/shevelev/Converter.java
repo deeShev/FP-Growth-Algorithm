@@ -12,7 +12,8 @@ public class Converter {
         Converter converter = new Converter(semicolon);
         ConverterFile converterFile = new ConverterCSV("after_transformation3.csv");
         WriterCSV writerCSV = new WriterCSV(semicolon,"after_transformation3.csv");
-        converterFile.start(converter.settigsCSV(), writerCSV);
+        converterFile.start(converter.settingsCSV(), writerCSV);
+        System.out.println("asd");
 
     }
 
@@ -21,7 +22,7 @@ public class Converter {
     }
 
 
-    public CsvParserSettings settigsCSV(){
+    public CsvParserSettings settingsCSV(){
         CsvParserSettings settings = new CsvParserSettings();
 
         //delimiter (default ,): value used to separate individual fields in the input.

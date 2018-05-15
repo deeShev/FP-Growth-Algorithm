@@ -9,9 +9,12 @@ public class Column {
     private String name;
     private Map<String,Integer> substituteRows;
 
+    private Map<Integer, String> compoundSubstituteRows;
+
     public Column(String name) {
         this.name = name;
         this.substituteRows = new HashMap<>();
+        this.compoundSubstituteRows = new HashMap<>();
     }
 
     public  int getCount() {
@@ -26,6 +29,17 @@ public class Column {
         return substituteRows;
     }
 
+    public Map<Integer, String> getCompoundSubstituteRows() {
+        return compoundSubstituteRows;
+    }
+
+    public void setSubstituteRows(Map<String, Integer> substituteRows) {
+        this.substituteRows = substituteRows;
+    }
+
+    public void setCompoundSubstituteRows(Map<Integer, String> compoundSubstituteRows) {
+        this.compoundSubstituteRows = compoundSubstituteRows;
+    }
 
     public String getName() {
         return name;

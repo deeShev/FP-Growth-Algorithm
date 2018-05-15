@@ -12,14 +12,14 @@ import java.io.UnsupportedEncodingException;
 import java.util.*;
 
 public class ConverterCSV  implements ConverterFile{
-    private Map<String,Column> substitute;
+    private Map<String,Column> substituteSCV;
     private String csvFileNameToResources;
 
     private String previousID;
 
     public ConverterCSV(String csvFileNameToResources) {
         this.csvFileNameToResources = csvFileNameToResources;
-        substitute = new HashMap<>();
+        substituteSCV = new HashMap<>();
     }
 
 
@@ -44,11 +44,11 @@ public class ConverterCSV  implements ConverterFile{
 
                 String currentHeader = headers[i];
 
-                Column column  = substitute.get(currentHeader);
+                Column column  = substituteSCV.get(currentHeader);
 
                 if (column == null) {
                     column = new Column(currentHeader);
-                    substitute.put(currentHeader, column);
+                    substituteSCV.put(currentHeader, column);
                 }
 
 
