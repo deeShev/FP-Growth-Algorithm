@@ -17,7 +17,7 @@ public class NirModelTest {
         CsvParserSettings settings = new CsvParserSettings();
         settings.setDelimiterDetectionEnabled(true);
         settings.setHeaderExtractionEnabled(true);
-        inputData = new MiningCsvStream("CONV_after_transformation3.csv", settings, false);
+        inputData = new MiningCsvStream("PREP_after_transformation3.csv", settings, false);
     }
 
 
@@ -26,8 +26,8 @@ public class NirModelTest {
 
         miningSettings = new AssociationRulesFunctionSettings(logicalData);
 
-        miningSettings.setTransactionIDsArributeName("incidentGroup_guid");
-        miningSettings.setItemIDsArributeName("typeName");
+        miningSettings.setTransactionIDsArributeName("transID");
+        miningSettings.setItemIDsArributeName("itemID");
         miningSettings.setStatus("lastStatus");
         miningSettings.setMinSupport(0.1);
         miningSettings.setAlgorithmSettings(algorithmSettings);

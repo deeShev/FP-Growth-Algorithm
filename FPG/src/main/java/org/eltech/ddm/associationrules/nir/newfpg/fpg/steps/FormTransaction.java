@@ -56,7 +56,8 @@ public class FormTransaction extends DataMiningBlock {
             checkStatus(transaction, status);
         }
 
-        Item item = createItem(0 + "_" + itemId, transaction, fpgModel);
+        //Item item = createItem(0 + "_" + itemId, transaction, fpgModel);
+        Item item = createItem(itemId, fpgModel);
 
         if (!transaction.containsKey(item.getID())) {
             transaction.addElementInTransaction(item);
@@ -64,7 +65,21 @@ public class FormTransaction extends DataMiningBlock {
         }
     }
 
-    private Item createItem(String itemId, Transaction transaction, FPGModel fpgModel) throws MiningException {
+    private Item createItem(String itemId, FPGModel fpgModel) throws MiningException {
+        //int indexItemToSet = fpgModel.getItemToSet(itemId);
+        Item item;
+        //if (indexItemToSet == -1){
+        if (!fpgModel.getItem().containsKey(itemId)){
+            item = new Item(itemId);
+            fpgModel.addItem(AssociationRulesMiningModel.INDEX_ELEMENT_ITEM,item);
+            return item;
+        }else {
+            item = (Item) fpgModel.getItem().getElement(itemId);
+            return item;
+        }
+    }
+
+    /*private Item createItem(String itemId, Transaction transaction, FPGModel fpgModel) throws MiningException {
         Item item = new Item(itemId);
 
         if (!fpgModel.getItem().containsKey(itemId)) {
@@ -123,7 +138,7 @@ public class FormTransaction extends DataMiningBlock {
         int count = Integer.parseInt(order[0]);
         currentItem = new Item(++count + "_" + itemId.split("_")[1]);
         return currentItem;
-    }
+    }*/
 
     private void checkStatus(Transaction transaction, String status){
         if ((int) Double.parseDouble(status) != 8){

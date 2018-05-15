@@ -15,7 +15,7 @@ public class NirFPGSequentialAlgorithmTest extends NirModelTest {
     protected MiningAlgorithm algorithm;
     protected EMiningAlgorithmSettings algorithmSettings;
 
-    private static final int HANDLERS_NUMBER = 8;
+    private static final int HANDLERS_NUMBER = 2;
 
     @Before
     public void setUp() {
