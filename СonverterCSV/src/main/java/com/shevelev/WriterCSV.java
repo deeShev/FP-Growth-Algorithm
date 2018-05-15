@@ -11,7 +11,7 @@ public class WriterCSV implements WriterFile {
     private boolean firstCame = true;
     private char delimiter;
     private String csvFileNameToResources;
-    private int previousID;
+    private int previousID = -1;
     private int count;
 
     private  Map<String, String[]> preparationHeaderMap;
@@ -57,12 +57,12 @@ public class WriterCSV implements WriterFile {
             for (int i = 0; i < headers.length; i++) {
                 orderInRows.put(headers[i], i);
             }
-            preparationCSV(rows);
             writer.writeHeaders();
-            firstCame = false;
         }
 
         preparationCSV(rows);
+        firstCame = false;
+
         writer.writeRow(rows);
 
         writer.close();
@@ -97,7 +97,7 @@ public class WriterCSV implements WriterFile {
     }
 
     private List<Integer> transducerCSV(List<Integer> rows) {
-        List<Integer> transducerList = new ArrayList<>();
+            List<Integer> transducerList = new ArrayList<>();
         StringBuilder tmpRow;
 
         for (int i = 0; i < preparationHeaders.length; i++){
@@ -123,8 +123,15 @@ public class WriterCSV implements WriterFile {
                             tmpRow.append(count).append("_").append(rows.get(indexInRows));
                             count += 1;
                         }else {
-                            count = 0;
-                            tmpRow.append(count).append("_").append(rows.get(indexInRows));
+                            if (previousID == -1){
+                                previousID = 0;
+                                tmpRow.append(count).append("_").append(rows.get(indexInRows));
+                                count += 1;
+                            }else {
+                                count = 0;
+                                tmpRow.append(count).append("_").append(rows.get(indexInRows));
+                                count += 1;
+                            }
                         }
                     } else {
                         tmpRow.append("_").append(rows.get(indexInRows));
@@ -145,24 +152,34 @@ public class WriterCSV implements WriterFile {
 
 
                 if (j == compoundRow.length - 1){
-                    if (i == 0){
-                        previousID = column.getCount();
+                    if (i == preparationHeaders.length -1){
+                        previousID = transducerList.get(0);
                     }
-                    if (column.getCompoundSubstituteRows().containsValue(String.valueOf(tmpRow))){
+                    if (column.getCompoundSubstituteRows().containsKey(String.valueOf(tmpRow))){
                         if (i == 2){
-                            column.getCompoundSubstituteRows().put((int) Double.parseDouble(String.valueOf(tmpRow)) , String.valueOf(tmpRow));
+                            column.getCompoundSubstituteRows().put(String.valueOf(tmpRow), (int) Double.parseDouble(String.valueOf(tmpRow)));
                             transducerList.add((int) Double.parseDouble(String.valueOf(tmpRow)));
                         }else {
-                            transducerList.add(column.getCount());
+                            transducerList.add(column.getCompoundSubstituteRows().get(String.valueOf(tmpRow)));
                         }
                     }else {
                         if (i == 2){
-                            column.getCompoundSubstituteRows().put((int) Double.parseDouble(String.valueOf(tmpRow)), String.valueOf(tmpRow));
+                            column.getCompoundSubstituteRows().put(String.valueOf(tmpRow), (int) Double.parseDouble(String.valueOf(tmpRow)));
                             transducerList.add((int) Double.parseDouble(String.valueOf(tmpRow)));
                         }else {
-                            column.getCompoundSubstituteRows().put(column.getCount(), String.valueOf(tmpRow));
-                            transducerList.add(column.getCount());
-                            column.setCount(column.getCount() + 1);
+                            if (i == 0){
+                                if (previousID == column.getCount()){
+                                    transducerList.add(column.getCount());
+                                }else {
+                                    column.getCompoundSubstituteRows().put(String.valueOf(tmpRow), column.getCount());
+                                    transducerList.add(column.getCount());
+                                    column.setCount(column.getCount() + 1);
+                                }
+                            }else {
+                                column.getCompoundSubstituteRows().put(String.valueOf(tmpRow), column.getCount());
+                                transducerList.add(column.getCount());
+                                column.setCount(column.getCount() + 1);
+                            }
                         }
                     }
                 }

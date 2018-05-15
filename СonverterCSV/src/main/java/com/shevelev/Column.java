@@ -9,7 +9,7 @@ public class Column {
     private String name;
     private Map<String,Integer> substituteRows;
 
-    private Map<Integer, String> compoundSubstituteRows;
+    private Map<String, Integer> compoundSubstituteRows;
 
     public Column(String name) {
         this.name = name;
@@ -29,7 +29,7 @@ public class Column {
         return substituteRows;
     }
 
-    public Map<Integer, String> getCompoundSubstituteRows() {
+    public Map<String, Integer> getCompoundSubstituteRows() {
         return compoundSubstituteRows;
     }
 
@@ -37,7 +37,7 @@ public class Column {
         this.substituteRows = substituteRows;
     }
 
-    public void setCompoundSubstituteRows(Map<Integer, String> compoundSubstituteRows) {
+    public void setCompoundSubstituteRows(Map<String, Integer> compoundSubstituteRows) {
         this.compoundSubstituteRows = compoundSubstituteRows;
     }
 
