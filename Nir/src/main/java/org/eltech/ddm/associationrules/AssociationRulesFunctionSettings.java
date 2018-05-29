@@ -1,0 +1,166 @@
+package org.eltech.ddm.associationrules;
+
+import org.eltech.ddm.miningcore.miningdata.ELogicalData;
+import org.eltech.ddm.miningcore.miningfunctionsettings.EMiningFunctionSettings;
+import org.eltech.ddm.miningcore.miningfunctionsettings.MiningFunction;
+
+public class AssociationRulesFunctionSettings extends EMiningFunctionSettings {
+
+    private final String TAG_NAME_ITEM_ID_ATTRIBUTE = "itemIDsAttributeName";
+
+    private final String TAG_NAME_TRANSACTION_ID_ATTRIBUTE = "transactionIDsAttributeName";
+    private final String TAG_NAME_STATUS = "status";
+    private final String TAG_ZONE_NAME = "zoneName";
+    private final String TAG_ROOT_ZONE_NAME = "rootZoneName";
+    private final String TAG_NUMBER_TS = "numberTS";
+    private final String TAG_TIME = "time";
+
+
+    /**
+     * This specifies the minimum confidence value for each association rule to
+     * be found.
+     */
+    private final String TAG_MIN_CONFIDIENCE = "minimumConfidence";
+
+    /**
+     * This is the maximum length of the antecedent and consequent item attributes
+     * sizes.
+     */
+    private final String TAG_MAX_RULE_LENGTH = "maximumRuleLength";
+
+    /**
+     * This specifies the minimum support of each frequent itemset to be found.
+     */
+    private final String TAG_MIN_SUPPORT = "minimumSupport";
+
+    public AssociationRulesFunctionSettings(ELogicalData ld) {
+        super(ld);
+        addTaggedValue(TAG_NAME_ITEM_ID_ATTRIBUTE, null, "String");
+        addTaggedValue(TAG_NAME_TRANSACTION_ID_ATTRIBUTE, null, "String");
+        addTaggedValue(TAG_NAME_STATUS, null, "String");
+        addTaggedValue(TAG_ZONE_NAME, null, "String");
+        addTaggedValue(TAG_ROOT_ZONE_NAME, null, "String");
+        addTaggedValue(TAG_NUMBER_TS, null, "String");
+        addTaggedValue(TAG_TIME, null, "String");
+
+
+        addTaggedValue(TAG_MIN_CONFIDIENCE, null, "double");
+        addTaggedValue(TAG_MAX_RULE_LENGTH, null, "int");
+        addTaggedValue(TAG_MIN_SUPPORT, null, "double");
+    }
+
+    @Override
+    public MiningFunction getMiningFunction() {
+        return MiningFunction.associationRules;
+    }
+
+    public double getMinConfidence() {
+        String v = getTaggedValue(TAG_MIN_CONFIDIENCE);
+        if(v == null)
+            return 0.1;
+        else
+            return Double.parseDouble(v);
+    }
+
+    public void setMinConfidence(double minimumConfidence) {
+        setTaggedValue(TAG_MIN_CONFIDIENCE, String.valueOf(minimumConfidence));
+    }
+
+    public void setItemIDsArributeName(String itemIDsAttributeName) {
+        setTaggedValue(TAG_NAME_ITEM_ID_ATTRIBUTE, String.valueOf(itemIDsAttributeName));
+    }
+
+    public void setTransactionIDsArributeName(String transactionIDsAttributeName) {
+        setTaggedValue(TAG_NAME_TRANSACTION_ID_ATTRIBUTE, String.valueOf(transactionIDsAttributeName));
+    }
+
+    public String getItemIDsAttributeName() {
+        String v = getTaggedValue(TAG_NAME_ITEM_ID_ATTRIBUTE);
+        if(v == null)
+            return "";
+        else
+            return v;
+    }
+
+    public String getTransactionIDsAttributeName() {
+        String v = getTaggedValue(TAG_NAME_TRANSACTION_ID_ATTRIBUTE);
+        if(v == null)
+            return "";
+        else
+            return v;
+    }
+
+    public void setStatus(String status) {
+        setTaggedValue(TAG_NAME_STATUS, String.valueOf(status));
+    }
+
+
+
+    public String getStatus() {
+        String v = getTaggedValue(TAG_NAME_STATUS);
+        if(v == null)
+            return "";
+        else
+            return v;
+    }
+
+    public double getMinSupport() {
+        String v = getTaggedValue(TAG_MIN_SUPPORT);
+        if(v == null)
+            return 0.1;
+        else
+            return Double.parseDouble(v);
+    }
+
+    public void setMinSupport(double minimumSupport) {
+        setTaggedValue(TAG_MIN_SUPPORT, String.valueOf(minimumSupport));
+    }
+
+    public String getZoneName() {
+        String v = getTaggedValue(TAG_ZONE_NAME);
+        if(v == null)
+            return "";
+        else
+            return v;
+    }
+
+    public String getRootZoneName() {
+        String v = getTaggedValue(TAG_ROOT_ZONE_NAME);
+        if(v == null)
+            return "";
+        else
+            return v;
+    }
+
+    public String getNumberTS() {
+        String v = getTaggedValue(TAG_NUMBER_TS);
+        if(v == null)
+            return "";
+        else
+            return v;
+    }
+
+    public String getTime() {
+        String v = getTaggedValue(TAG_TIME);
+        if(v == null)
+            return "";
+        else
+            return v;
+    }
+
+    public void setZoneName(String zoneName) {
+        setTaggedValue(TAG_ZONE_NAME, String.valueOf(zoneName));
+    }
+
+    public void setRootZoneName(String rootZoneName) {
+        setTaggedValue(TAG_ROOT_ZONE_NAME, String.valueOf(rootZoneName));
+    }
+
+    public void setNumberTS(String numberTS) {
+        setTaggedValue(TAG_NUMBER_TS, String.valueOf(numberTS));
+    }
+
+    public void setTime(String time) {
+        setTaggedValue(TAG_TIME, String.valueOf(time));
+    }
+}

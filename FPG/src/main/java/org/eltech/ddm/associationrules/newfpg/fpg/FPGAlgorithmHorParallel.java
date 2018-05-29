@@ -41,9 +41,9 @@ public class FPGAlgorithmHorParallel extends FPGAlgorithm {
                 new FormConditionalPatternBase(miningSettings),
                 new MiningLoopElement(miningSettings, FPGModel.INDEX_CONDITIONAL_LIST,
                         new IsManyPrefixPathDecision(miningSettings,
-                                new FormConditionalLargeFPTreeAndFormItem(miningSettings)),
+                                new FormConditionalLargeFPTreeAndFormItemSets(miningSettings)),
                         new IsOnePrefixPathDecision(miningSettings,
-                                new FormConditionalFPTreeAndFormItem(miningSettings))));
+                                new FormConditionalFPTreeAndFormItemSets(miningSettings))));
         loop4.addListenerExecute(new BlockExecuteTimingListner());
 
 

@@ -15,7 +15,6 @@ public class ConverterCSV  implements ConverterFile{
     private Map<String,Column> substituteSCV;
     private String csvFileNameToResources;
 
-    private String previousID;
 
     public ConverterCSV(String csvFileNameToResources) {
         this.csvFileNameToResources = csvFileNameToResources;
@@ -55,10 +54,6 @@ public class ConverterCSV  implements ConverterFile{
                 Integer row = column.getSubstituteRows().get(currentRow[i]);
 
                 if (row == null){
-                    if (column.getName().equals("incidentGroup_guid")) {
-                        previousID = currentRow[i];
-                    }
-
                     if (column.getName().equals("lastStatus")){
                         double count = Double.parseDouble(currentRow[i]);
                         column.getSubstituteRows().put(currentRow[i], (int) count);
@@ -70,22 +65,9 @@ public class ConverterCSV  implements ConverterFile{
                         column.setCount(column.getCount() + 1);
                     }
                 }else {
-                    if (column.getName().equals("incidentGroup_guid")) {
-                        if (currentRow[i].equals(previousID)) {
-                            tmpRow.add(row);
-                        }else {
-                            column.getSubstituteRows().put(currentRow[i], column.getCount());
-                            tmpRow.add(column.getCount());
-                            column.setCount(column.getCount() + 1);
-                        }
-
-                        previousID = currentRow[i];
-                    }else {
-                        tmpRow.add(row);
-                    }
+                    tmpRow.add(row);
                 }
             }
-
             writerFile.write(headers, tmpRow);
         }
     }

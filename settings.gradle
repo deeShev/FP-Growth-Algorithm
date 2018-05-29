@@ -11,4 +11,5 @@ include 'ActorCluster'
 include 'FPG'
 include 'FPG'
 include 'СonverterCSV'
+include 'Nir'
 
