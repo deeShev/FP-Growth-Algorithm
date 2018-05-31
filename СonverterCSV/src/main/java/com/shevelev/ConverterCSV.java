@@ -54,7 +54,7 @@ public class ConverterCSV  implements ConverterFile{
                 Integer row = column.getSubstituteRows().get(currentRow[i]);
 
                 if (row == null){
-                    if (column.getName().equals("lastStatus")){
+                    if (column.getName().equals("LASTSTATUS")){
                         double count = Double.parseDouble(currentRow[i]);
                         column.getSubstituteRows().put(currentRow[i], (int) count);
                         tmpRow.add((int) count);

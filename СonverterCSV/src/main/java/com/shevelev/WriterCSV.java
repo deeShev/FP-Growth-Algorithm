@@ -44,7 +44,8 @@ public class WriterCSV implements WriterFile {
             firstCame = false;
         }
 
-        writer.writeRow(rows);
+
+        writer.writeRow(rows.toArray());
 
         writer.close();
     }

@@ -21,7 +21,7 @@ public class NirFPGSequentialAlgorithmTest extends NirModelTest {
     public void setUp() {
         algorithmSettings =  new FPGSettings();
         algorithmSettings.setName("FPG");
-        algorithmSettings.setClassname("org.eltech.ddm.associationrules.newfpg.fpg.FPGAlgorithm");
+        algorithmSettings.setClassname("org.eltech.ddm.associationrules.fpg.FPGAlgorithm");
     }
 
 

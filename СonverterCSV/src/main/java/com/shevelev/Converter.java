@@ -10,9 +10,10 @@ public class Converter {
     public static void main(String[] args) throws IOException {
         char semicolon = 59;
         Converter converter = new Converter(semicolon);
-        ConverterFile converterFile = new ConverterCSV("after_transformation3.csv");
-        WriterCSV writerCSV = new WriterCSV(semicolon,"after_transformation3.csv");
+        ConverterFile converterFile = new ConverterCSV("mmk_incident_csv.csv");
+        WriterCSV writerCSV = new WriterCSV(semicolon,"mmk_incident_csv.csv");
         converterFile.start(converter.settingsCSV(), writerCSV);
+        System.out.println("aa");
     }
 
     public Converter(char delimiter){
